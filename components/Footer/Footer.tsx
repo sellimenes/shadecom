@@ -71,7 +71,7 @@ export function Footer() {
       </Container>
       <Container size={'1600px'} className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © 2020 mantine.dev. All rights reserved.
+          © 2023 shade ecom. All rights reserved.
         </Text>
 
         <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
