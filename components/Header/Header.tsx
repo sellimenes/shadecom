@@ -9,6 +9,8 @@ import {
   Text,
   ActionIcon,
   useMantineColorScheme,
+  Flex,
+  Box,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconMoon, IconSun } from '@tabler/icons-react';
@@ -83,8 +85,19 @@ export function Header() {
 
   return (
     <header className={classes.header}>
+      <Box className={classes.upperHeader} mt={2}>
+        <Container size="1600px">
+          <Flex justify={'flex-end'} align={'center'}>
+            <Group gap={5} visibleFrom="sm">
+              <Link href={'/admin'}>
+                <Text size="sm">Admin</Text>
+              </Link>
+            </Group>
+          </Flex>
+        </Container>
+      </Box>
       <Container size="1600px">
-        <div className={classes.inner}>
+        <Flex className={classes.inner}>
           <Link href="/">
             <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
               Shade
@@ -111,7 +124,7 @@ export function Header() {
             )}
           </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
-        </div>
+        </Flex>
       </Container>
     </header>
   );
