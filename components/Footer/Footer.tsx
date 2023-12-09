@@ -58,7 +58,7 @@ export function Footer() {
 
   return (
     <footer className={classes.footer}>
-      <Container size={'1600px'} className={classes.inner}>
+      <Container size={'1600px'} w={'90%'} className={classes.inner}>
         <div className={classes.logo}>
           <Text size="32px" fw={500}>
             Shade
@@ -69,7 +69,7 @@ export function Footer() {
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
-      <Container size={'1600px'} className={classes.afterFooter}>
+      <Container size={'1600px'} w={'90%'} className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
           © 2023 shade ecom. All rights reserved.
         </Text>

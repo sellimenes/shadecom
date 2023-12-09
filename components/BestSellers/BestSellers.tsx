@@ -8,7 +8,7 @@ type Props = {};
 
 const BestSellers = (props: Props) => {
   return (
-    <Container size={'1600px'} mt={'1rem'}>
+    <Container size={'1600px'} w={'90%'} mt={'1rem'}>
       <Flex justify={'space-between'} align={'center'}>
         <Text
           className={classes.pageTitle}

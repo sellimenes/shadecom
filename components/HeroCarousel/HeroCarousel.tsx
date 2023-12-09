@@ -21,7 +21,7 @@ export function HeroCarousel() {
     >
       <Carousel.Slide>
         <div className={classes.root}>
-          <Container size="1600px">
+          <Container size="1600px" w={'90%'}>
             <div className={classes.inner}>
               <div className={classes.content}>
                 <Title className={classes.title}>
@@ -58,7 +58,7 @@ export function HeroCarousel() {
       </Carousel.Slide>
       <Carousel.Slide>
         <div className={classes.root}>
-          <Container size="1600px">
+          <Container size="1600px" w={'90%'}>
             <div className={classes.inner}>
               <div className={classes.content}>
                 <Title className={classes.title}>
@@ -95,7 +95,7 @@ export function HeroCarousel() {
       </Carousel.Slide>
       <Carousel.Slide>
         <div className={classes.root}>
-          <Container size="1600px">
+          <Container size="1600px" w={'90%'}>
             <div className={classes.inner}>
               <div className={classes.content}>
                 <Title className={classes.title}>

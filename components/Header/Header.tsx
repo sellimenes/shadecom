@@ -102,7 +102,7 @@ export function Header() {
         <AuthenticationForm />
       </Modal>
       <Box className={classes.upperHeader} mt={2}>
-        <Container size="1600px">
+        <Container size="1600px" w={'90%'}>
           <Flex justify={'flex-end'} align={'center'}>
             <Group gap={16} visibleFrom="sm">
               <Link href={'/admin'}>
@@ -115,7 +115,7 @@ export function Header() {
           </Flex>
         </Container>
       </Box>
-      <Container size="1600px">
+      <Container size="1600px" w={'90%'}>
         <Flex className={classes.inner}>
           <Link href="/">
             <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
