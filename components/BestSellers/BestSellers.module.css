@@ -1,8 +1,9 @@
 .pageTitle {
   color: var(--mantine-color-indigo-8);
+  font-size: 1.75rem;
+  font-weight: 500;
 }
 
 .viewAll {
   text-decoration: none;
-  color: var(--mantine-color-indigo-8);
 }

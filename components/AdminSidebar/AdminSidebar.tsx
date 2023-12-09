@@ -11,6 +11,7 @@ import {
   IconLock,
   IconMoon,
   IconSun,
+  IconExternalLink,
 } from '@tabler/icons-react';
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
@@ -18,7 +19,8 @@ import { Logo } from './Logo';
 import classes from './AdminSidebar.module.css';
 
 const mockdata = [
-  { label: 'Dashboard', icon: IconGauge },
+  { label: 'Go to site', icon: IconExternalLink, link: '/' },
+  { label: 'Dashboard', icon: IconGauge, link: '/admin' },
   {
     label: 'Market news',
     icon: IconNotes,

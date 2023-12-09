@@ -10,9 +10,13 @@ const BestSellers = (props: Props) => {
   return (
     <Container size={'1600px'} mt={'1rem'}>
       <Flex justify={'space-between'} align={'center'}>
-        <Title order={2} className={classes.pageTitle}>
+        <Text
+          className={classes.pageTitle}
+          variant="gradient"
+          gradient={{ from: 'pink', to: 'orange' }}
+        >
           Best Sellers
-        </Title>
+        </Text>
         <Link href={'/#'} className={classes.viewAll}>
           <Text fw={500}>View All</Text>
         </Link>

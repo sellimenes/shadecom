@@ -11,11 +11,14 @@ import {
   useMantineColorScheme,
   Flex,
   Box,
+  Modal,
+  UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconMoon, IconSun } from '@tabler/icons-react';
 import classes from './Header.module.css';
 import Link from 'next/link';
+import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 
 const links = [
   { link: '/about', label: 'Features' },
@@ -43,7 +46,7 @@ const links = [
 ];
 
 export function Header() {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   const items = links.map((link) => {
@@ -85,13 +88,29 @@ export function Header() {
 
   return (
     <header className={classes.header}>
+      <Modal
+        opened={opened}
+        onClose={close}
+        centered
+        withCloseButton={false}
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        transitionProps={{ transition: 'rotate-left', duration: 300, timingFunction: 'linear' }}
+      >
+        <AuthenticationForm />
+      </Modal>
       <Box className={classes.upperHeader} mt={2}>
         <Container size="1600px">
           <Flex justify={'flex-end'} align={'center'}>
-            <Group gap={5} visibleFrom="sm">
+            <Group gap={16} visibleFrom="sm">
               <Link href={'/admin'}>
                 <Text size="sm">Admin</Text>
               </Link>
+              <UnstyledButton onClick={open} variant="unstyled">
+                <Text size="sm">Auth</Text>
+              </UnstyledButton>
             </Group>
           </Flex>
         </Container>
@@ -100,7 +119,7 @@ export function Header() {
         <Flex className={classes.inner}>
           <Link href="/">
             <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
-              Shade
+              Shade.
             </Text>
           </Link>
           <Group gap={5} visibleFrom="sm">
