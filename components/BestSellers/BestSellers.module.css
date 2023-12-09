@@ -1,0 +1,8 @@
+.pageTitle {
+  color: var(--mantine-color-indigo-8);
+}
+
+.viewAll {
+  text-decoration: none;
+  color: var(--mantine-color-indigo-8);
+}

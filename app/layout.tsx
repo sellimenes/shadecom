@@ -2,10 +2,6 @@ import '@mantine/core/styles.css';
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '../theme';
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
-
-import classes from './Layout.module.css';
 
 export const metadata = {
   title: 'Mantine Next.js template',
@@ -24,13 +20,7 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <main className={classes.main}>
-            <Header />
-            <div className={classes.content}>{children}</div>
-            <Footer />
-          </main>
-        </MantineProvider>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
   );
