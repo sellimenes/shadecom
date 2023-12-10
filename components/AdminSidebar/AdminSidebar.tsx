@@ -1,6 +1,14 @@
 'use client';
 
-import { Group, Code, ScrollArea, rem, useMantineColorScheme, ActionIcon } from '@mantine/core';
+import {
+  Group,
+  Code,
+  ScrollArea,
+  rem,
+  useMantineColorScheme,
+  ActionIcon,
+  Text,
+} from '@mantine/core';
 import {
   IconNotes,
   IconCalendarStats,
@@ -16,6 +24,7 @@ import {
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
 import { Logo } from './Logo';
+import Link from 'next/link';
 import classes from './AdminSidebar.module.css';
 
 const mockdata = [
@@ -63,8 +72,12 @@ export function AdminSidebar() {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          <Logo style={{ width: rem(120) }} />
-          <Code fw={700}>v3.1.2</Code>
+          <Link href="/">
+            <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
+              Shade.
+            </Text>
+          </Link>
+          <Code fw={700}>v0.0.1</Code>
         </Group>
       </div>
 
