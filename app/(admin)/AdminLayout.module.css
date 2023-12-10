@@ -1,5 +1,11 @@
 .adminWrapper {
   min-height: 100vh;
   display: flex;
-  gap: 4rem;
+}
+
+.childrenWrapper {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  max-width: 1600px;
+  margin: 0 auto;
 }

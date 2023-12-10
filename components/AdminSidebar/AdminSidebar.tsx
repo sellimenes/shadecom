@@ -76,11 +76,21 @@ export function AdminSidebar() {
 
       <div className={classes.themeToggle}>
         {colorScheme === 'light' ? (
-          <ActionIcon variant="outline" aria-label="Dark" onClick={() => setColorScheme('dark')}>
+          <ActionIcon
+            color="orange"
+            variant="outline"
+            aria-label="Dark"
+            onClick={() => setColorScheme('dark')}
+          >
             <IconMoon style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         ) : (
-          <ActionIcon variant="outline" aria-label="Dark" onClick={() => setColorScheme('light')}>
+          <ActionIcon
+            color="orange"
+            variant="outline"
+            aria-label="Dark"
+            onClick={() => setColorScheme('light')}
+          >
             <IconSun style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         )}

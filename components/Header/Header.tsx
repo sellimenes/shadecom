@@ -126,6 +126,7 @@ export function Header() {
             {items}
             {colorScheme === 'light' ? (
               <ActionIcon
+                color="orange"
                 variant="outline"
                 aria-label="Dark"
                 onClick={() => setColorScheme('dark')}
@@ -134,6 +135,7 @@ export function Header() {
               </ActionIcon>
             ) : (
               <ActionIcon
+                color="orange"
                 variant="outline"
                 aria-label="Dark"
                 onClick={() => setColorScheme('light')}

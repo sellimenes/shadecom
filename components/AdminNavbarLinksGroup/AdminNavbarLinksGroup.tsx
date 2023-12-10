@@ -46,13 +46,13 @@ export function LinksGroup({
       >
         <Group justify="space-between" gap={0}>
           <Box style={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon variant="light" size={30}>
+            <ThemeIcon variant="light" color="orange" size={30}>
               <Icon style={{ width: rem(18), height: rem(18) }} />
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
           {badge && (
-            <Badge variant="light" color="green">
+            <Badge variant="light" color="orange">
               {badge}
             </Badge>
           )}

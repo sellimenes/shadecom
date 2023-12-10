@@ -12,7 +12,7 @@ const layout = ({ children }: { children: any }) => {
   return (
     <div className={classes.adminWrapper}>
       <AdminSidebar />
-      <div>{children}</div>
+      <div className={classes.childrenWrapper}>{children}</div>
     </div>
   );
 };
