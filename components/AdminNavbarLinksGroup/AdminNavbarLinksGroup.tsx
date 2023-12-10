@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, rem } from '@mantine/core';
+import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, rem, Badge } from '@mantine/core';
 import { IconCalendarStats, IconChevronRight } from '@tabler/icons-react';
 import classes from './AdminNavbarLinksGroup.module.css';
 
@@ -11,9 +11,17 @@ interface LinksGroupProps {
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
   link?: string;
+  badge?: number;
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }: LinksGroupProps) {
+export function LinksGroup({
+  icon: Icon,
+  label,
+  initiallyOpened,
+  links,
+  link,
+  badge,
+}: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const items = (hasLinks ? links : []).map((link) => (
@@ -43,6 +51,11 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links, link }: 
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
+          {badge && (
+            <Badge variant="light" color="green">
+              {badge}
+            </Badge>
+          )}
           {hasLinks && (
             <IconChevronRight
               className={classes.chevron}

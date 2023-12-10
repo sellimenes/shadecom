@@ -1,20 +1,12 @@
 'use client';
 
+import { Group, Code, ScrollArea, useMantineColorScheme, ActionIcon, Text } from '@mantine/core';
 import {
-  Group,
-  Code,
-  ScrollArea,
-  rem,
-  useMantineColorScheme,
-  ActionIcon,
-  Text,
-} from '@mantine/core';
-import {
-  IconNotes,
-  IconCalendarStats,
+  IconShoppingBag,
+  IconBuildingStore,
   IconGauge,
   IconPresentationAnalytics,
-  IconFileAnalytics,
+  IconUsers,
   IconAdjustments,
   IconLock,
   IconMoon,
@@ -23,7 +15,6 @@ import {
 } from '@tabler/icons-react';
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
-import { Logo } from './Logo';
 import Link from 'next/link';
 import classes from './AdminSidebar.module.css';
 
@@ -31,28 +22,26 @@ const mockdata = [
   { label: 'Go to site', icon: IconExternalLink, link: '/' },
   { label: 'Dashboard', icon: IconGauge, link: '/admin' },
   {
-    label: 'Market news',
-    icon: IconNotes,
-    // initiallyOpened: true,
-    links: [
-      { label: 'Overview', link: '/' },
-      { label: 'Forecasts', link: '/' },
-      { label: 'Outlook', link: '/' },
-      { label: 'Real time', link: '/' },
-    ],
+    label: 'Orders',
+    icon: IconShoppingBag,
+    link: '/admin/orders',
+    badge: 5,
   },
   {
-    label: 'Releases',
-    icon: IconCalendarStats,
+    label: 'Products',
+    icon: IconBuildingStore,
+    link: '/admin/products',
+  },
+  { label: 'Users', icon: IconUsers },
+  { label: 'Analytics', icon: IconPresentationAnalytics },
+  {
+    label: 'Settings',
+    icon: IconAdjustments,
     links: [
-      { label: 'Upcoming releases', link: '/' },
-      { label: 'Previous releases', link: '/' },
-      { label: 'Releases schedule', link: '/' },
+      { label: 'General settings', link: '/' },
+      { label: 'SEO settings', link: '/' },
     ],
   },
-  { label: 'Analytics', icon: IconPresentationAnalytics },
-  { label: 'Contracts', icon: IconFileAnalytics },
-  { label: 'Settings', icon: IconAdjustments },
   {
     label: 'Security',
     icon: IconLock,
