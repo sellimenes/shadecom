@@ -16,7 +16,9 @@ import {
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import classes from './AdminSidebar.module.css';
+import { useEffect } from 'react';
 
 const mockdata = [
   { label: 'Go to site', icon: IconExternalLink, link: '/' },
@@ -54,7 +56,11 @@ const mockdata = [
 ];
 
 export function AdminSidebar() {
-  const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+  const pathname = usePathname();
+  const links = mockdata.map((item) => {
+    const isActive = item.link === pathname;
+    return <LinksGroup {...item} key={item.label} isActive={isActive} />;
+  });
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (

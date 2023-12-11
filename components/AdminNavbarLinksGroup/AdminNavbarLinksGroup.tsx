@@ -12,6 +12,7 @@ interface LinksGroupProps {
   links?: { label: string; link: string }[];
   link?: string;
   badge?: number;
+  isActive?: boolean;
 }
 
 export function LinksGroup({
@@ -21,6 +22,7 @@ export function LinksGroup({
   links,
   link,
   badge,
+  isActive,
 }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -42,7 +44,7 @@ export function LinksGroup({
         component={link ? 'a' : 'button'}
         href={link ? link : undefined}
         onClick={() => setOpened((o) => !o)}
-        className={classes.control}
+        className={classes.control + (isActive ? ` ${classes.controlActive}` : '')}
       >
         <Group justify="space-between" gap={0}>
           <Box style={{ display: 'flex', alignItems: 'center' }}>
