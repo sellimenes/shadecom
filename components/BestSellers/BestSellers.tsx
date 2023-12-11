@@ -13,7 +13,7 @@ const BestSellers = (props: Props) => {
         <Text
           className={classes.pageTitle}
           variant="gradient"
-          gradient={{ from: 'pink', to: 'orange' }}
+          gradient={{ from: 'pink', to: 'primary' }}
         >
           Best Sellers
         </Text>

@@ -104,20 +104,25 @@ export function Header() {
       <Container size="1600px" w={'90%'}>
         <Flex className={classes.inner}>
           <Link href="/">
-            <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
+            <Text
+              size="32px"
+              fw={700}
+              variant="gradient"
+              gradient={{ from: 'pink', to: 'primary' }}
+            >
               Shade.
             </Text>
           </Link>
           <Input
             placeholder="Search for items..."
             className={classes.searchInput}
-            rightSection={<IconSearch color="orange" />}
+            rightSection={<IconSearch color="primary" />}
           />
           <Group gap={5} visibleFrom="sm">
             {items}
             {colorScheme === 'light' ? (
               <ActionIcon
-                color="orange"
+                color="primary"
                 variant="outline"
                 aria-label="Dark"
                 onClick={() => setColorScheme('dark')}
@@ -126,7 +131,7 @@ export function Header() {
               </ActionIcon>
             ) : (
               <ActionIcon
-                color="orange"
+                color="primary"
                 variant="outline"
                 aria-label="Dark"
                 onClick={() => setColorScheme('light')}

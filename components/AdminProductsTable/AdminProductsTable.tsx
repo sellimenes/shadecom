@@ -93,7 +93,7 @@ export default function AdminProductsTable() {
       <Table.Tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
         <Table.Td>
           <Checkbox
-            color="orange"
+            color="primary"
             checked={selection.includes(item.id)}
             onChange={() => toggleRow(item.id)}
           />
@@ -136,7 +136,7 @@ export default function AdminProductsTable() {
           <Table.Tr>
             <Table.Th style={{ width: rem(40) }}>
               <Checkbox
-                color="orange"
+                color="primary"
                 onChange={toggleAll}
                 checked={selection.length === data.length}
                 indeterminate={selection.length > 0 && selection.length !== data.length}

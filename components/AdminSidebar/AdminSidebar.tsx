@@ -68,7 +68,12 @@ export function AdminSidebar() {
       <div className={classes.header}>
         <Group justify="space-between">
           <Link href="/">
-            <Text size="32px" fw={700} variant="gradient" gradient={{ from: 'pink', to: 'orange' }}>
+            <Text
+              size="32px"
+              fw={700}
+              variant="gradient"
+              gradient={{ from: 'pink', to: 'primary' }}
+            >
               Shade.
             </Text>
           </Link>
@@ -83,7 +88,7 @@ export function AdminSidebar() {
       <div className={classes.themeToggle}>
         {colorScheme === 'light' ? (
           <ActionIcon
-            color="orange"
+            color="primary"
             variant="outline"
             aria-label="Dark"
             onClick={() => setColorScheme('dark')}
@@ -92,7 +97,7 @@ export function AdminSidebar() {
           </ActionIcon>
         ) : (
           <ActionIcon
-            color="orange"
+            color="primary"
             variant="outline"
             aria-label="Dark"
             onClick={() => setColorScheme('light')}

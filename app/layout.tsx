@@ -7,8 +7,8 @@ import './globals.css';
 import { ModalsProvider } from '@mantine/modals';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: 'Shadecommerce',
+  description: 'Shadecommerce | Selim Enes',
 };
 
 export default function RootLayout({ children }: { children: any }) {

@@ -6,12 +6,10 @@ import classes from './AdminStats.module.css';
 type Props = {};
 
 const data = [
-  { title: 'Revenue', value: '$13,456', diff: 34 },
-  { title: 'Profit', value: '$4,145', diff: -13 },
-  { title: 'Orders', value: '745', diff: 18 },
-  { title: 'Traffic', value: '745', diff: 18 },
-  { title: 'Refunds', value: '745', diff: 18 },
-  { title: 'Comments', value: '745', diff: 18 },
+  { title: 'Sales', value: '$13,456', diff: 34 },
+  { title: 'Orders', value: '485', diff: -13 },
+  { title: 'New Customers', value: '84', diff: 18 },
+  { title: 'Traffic', value: '8.745', diff: 18 },
 ];
 
 export function AdminStats() {
@@ -25,12 +23,11 @@ export function AdminStats() {
         span={{
           base: 12,
           sm: 6,
-          md: 4,
           lg: 3,
         }}
       >
         <Paper withBorder p="md" radius="md">
-          <Group justify="apart">
+          <Group justify="space-between">
             <div>
               <Text c="dimmed" tt="uppercase" fw={700} fz="xs" className={classes.label}>
                 {stat.title}
