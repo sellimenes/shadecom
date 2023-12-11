@@ -1,5 +1,8 @@
 'use client';
 
+import Link from 'next/link';
+
+import { useDisclosure } from '@mantine/hooks';
 import {
   Menu,
   Group,
@@ -13,36 +16,19 @@ import {
   Box,
   Modal,
   UnstyledButton,
+  Input,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconChevronDown, IconMoon, IconSun } from '@tabler/icons-react';
+import { IconChevronDown, IconMoon, IconSun, IconSearch } from '@tabler/icons-react';
+
 import classes from './Header.module.css';
-import Link from 'next/link';
+
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 
 const links = [
-  { link: '/about', label: 'Features' },
-  {
-    link: '#1',
-    label: 'Learn',
-    links: [
-      { link: '/docs', label: 'Documentation' },
-      { link: '/resources', label: 'Resources' },
-      { link: '/community', label: 'Community' },
-      { link: '/blog', label: 'Blog' },
-    ],
-  },
-  { link: '/about', label: 'About' },
-  { link: '/pricing', label: 'Pricing' },
-  {
-    link: '#2',
-    label: 'Support',
-    links: [
-      { link: '/faq', label: 'FAQ' },
-      { link: '/demo', label: 'Book a demo' },
-      { link: '/forums', label: 'Forums' },
-    ],
-  },
+  { link: '#1', label: 'Categories', links: [{ link: '/category/1', label: 'Category 1' }] },
+  { link: '/account', label: 'Account' },
+  { link: '/favorite', label: 'Favorites' },
+  { link: '/basket', label: 'My Basket' },
 ];
 
 export function Header() {
@@ -61,7 +47,7 @@ export function Header() {
             <a
               href={link.link}
               className={classes.link}
-              onClick={(event) => event.preventDefault()}
+              // onClick={(event) => event.preventDefault()}
             >
               <Center>
                 <span className={classes.linkLabel}>{link.label}</span>
@@ -122,6 +108,11 @@ export function Header() {
               Shade.
             </Text>
           </Link>
+          <Input
+            placeholder="Search for items..."
+            className={classes.searchInput}
+            rightSection={<IconSearch color="orange" />}
+          />
           <Group gap={5} visibleFrom="sm">
             {items}
             {colorScheme === 'light' ? (

@@ -1,9 +1,16 @@
+import AdminProductsTable from '@/components/AdminProductsTable/AdminProductsTable';
 import React from 'react';
+
+import classes from './ProductsPage.module.css';
 
 type Props = {};
 
-const Products = (props: Props) => {
-  return <div>Products</div>;
+const ProductsPage = (props: Props) => {
+  return (
+    <div className={classes.productsPageWrapper}>
+      <AdminProductsTable />
+    </div>
+  );
 };
 
-export default Products;
+export default ProductsPage;

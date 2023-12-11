@@ -12,6 +12,7 @@
 .inner {
   height: rem(56px);
   display: flex;
+  gap: 3rem;
   justify-content: space-between;
   align-items: center;
 }
@@ -38,4 +39,9 @@
 
 .linkLabel {
   margin-right: rem(5px);
+}
+
+.searchInput {
+  flex: 1;
+  max-width: 600px;
 }

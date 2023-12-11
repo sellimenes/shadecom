@@ -6,6 +6,7 @@
 .childrenWrapper {
   padding-left: 4rem;
   padding-right: 4rem;
-  max-width: 1600px;
+  /* max-width: 1600px; */
+  width: 100%;
   margin: 0 auto;
 }
