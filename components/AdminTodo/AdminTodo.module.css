@@ -1,11 +1,9 @@
 .todosWrapper {
-  background-color: var(--mantine-color-gray-0);
-  border-radius: 0.3rem;
-}
-
-.todoTitle {
-  font-size: 1.2rem;
-  font-weight: 600;
+  background-color: var(--mantine-color-body);
+  border-radius: var(--mantine-radius-default);
+  border: 1px solid var(--mantine-color-default-border);
+  box-shadow: var(--mantine-shadow-sm);
+  position: relative;
 }
 
 .todoFilter {
@@ -13,4 +11,16 @@
   border-radius: 0.2rem;
   color: var(--mantine-color-primary-9);
   background-color: var(--mantine-color-primary-0);
+}
+
+.addTodo {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 2;
+}
+
+.todoChecked {
+  text-decoration: line-through !important;
+  opacity: 50%;
 }
