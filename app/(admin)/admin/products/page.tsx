@@ -9,7 +9,7 @@ type Props = {};
 const ProductsPage = (props: Props) => {
   return (
     <div className={classes.productsPageWrapper}>
-      <AdminPageTitle title="Products" />
+      <AdminPageTitle title="Products" btnTitle="Add New Product" href="/admin/products/add" />
       <AdminProductsTable />
     </div>
   );

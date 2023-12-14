@@ -17,8 +17,18 @@ import {
   Modal,
   UnstyledButton,
   Input,
+  TextInput,
+  TextInputProps,
+  useMantineTheme,
+  rem,
 } from '@mantine/core';
-import { IconChevronDown, IconMoon, IconSun, IconSearch } from '@tabler/icons-react';
+import {
+  IconChevronDown,
+  IconMoon,
+  IconSun,
+  IconSearch,
+  IconArrowRight,
+} from '@tabler/icons-react';
 
 import classes from './Header.module.css';
 
@@ -113,10 +123,18 @@ export function Header() {
               Shade.
             </Text>
           </Link>
-          <Input
-            placeholder="Search for items..."
+          <TextInput
             className={classes.searchInput}
-            rightSection={<IconSearch color="primary" />}
+            radius="xl"
+            size="md"
+            placeholder="Search for products..."
+            rightSectionWidth={42}
+            leftSection={<IconSearch style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}
+            rightSection={
+              <ActionIcon size={32} radius="xl" color={'primary'} variant="filled">
+                <IconArrowRight style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+              </ActionIcon>
+            }
           />
           <Group gap={5} visibleFrom="sm">
             {items}
