@@ -1,6 +1,6 @@
 import cx from 'clsx';
 import { useState } from 'react';
-import { Table, ScrollArea, Text } from '@mantine/core';
+import { Table, ScrollArea, Text, Button, Flex, Group } from '@mantine/core';
 import classes from './AdminBestSellersTable.module.css';
 
 type Props = {};
@@ -50,6 +50,7 @@ const data = [
 
 export function AdminBestSellersTable() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeTab, setActiveTab] = useState('month');
 
   return (
     <ScrollArea
@@ -57,9 +58,40 @@ export function AdminBestSellersTable() {
       onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
       className={classes.tableWrapper}
     >
-      <Text c={'primary'} p={6} fw={600} fs={'lg'}>
-        Best Selling Items
-      </Text>
+      <Group p={6} justify={'space-between'} align={'center'}>
+        <Text c={'primary'} fw={600} fs={'lg'}>
+          Best Selling Items
+        </Text>
+        <Group gap={2}>
+          <Button
+            variant={activeTab === 'day' ? 'gradient' : 'outline'}
+            onClick={() => setActiveTab('day')}
+            gradient={{ from: 'red', to: 'primary' }}
+            color="primary"
+            size="compact-xs"
+          >
+            Today
+          </Button>
+          <Button
+            variant={activeTab === 'week' ? 'gradient' : 'outline'}
+            onClick={() => setActiveTab('week')}
+            gradient={{ from: 'red', to: 'primary' }}
+            color="primary"
+            size="compact-xs"
+          >
+            7 Days
+          </Button>
+          <Button
+            variant={activeTab === 'month' ? 'gradient' : 'outline'}
+            onClick={() => setActiveTab('month')}
+            gradient={{ from: 'red', to: 'primary' }}
+            color="primary"
+            size="compact-xs"
+          >
+            30 Days
+          </Button>
+        </Group>
+      </Group>
       <Table>
         <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
           <Table.Tr>

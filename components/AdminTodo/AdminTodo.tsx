@@ -3,7 +3,6 @@ import {
   Group,
   Box,
   Text,
-  UnstyledButton,
   Stack,
   Flex,
   Checkbox,
@@ -22,6 +21,7 @@ type Props = {};
 
 const AdminTodo = (props: Props) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [activeTab, setActiveTab] = useState('all');
   const todos = [1, 2, 3, 4, 5, 6];
   return (
     <Box h={'300'} p={8} className={classes.todosWrapper}>
@@ -39,10 +39,34 @@ const AdminTodo = (props: Props) => {
           <Text c={'primary'} fw={600} fs={'lg'}>
             Todo
           </Text>
-          <Group gap={3} mr={12}>
-            <UnstyledButton className={classes.todoFilter}>All</UnstyledButton>
-            <UnstyledButton className={classes.todoFilter}>Favorite</UnstyledButton>
-            <UnstyledButton className={classes.todoFilter}>Completed</UnstyledButton>
+          <Group gap={2}>
+            <Button
+              variant={activeTab === 'all' ? 'gradient' : 'outline'}
+              onClick={() => setActiveTab('all')}
+              gradient={{ from: 'red', to: 'primary' }}
+              color="primary"
+              size="compact-xs"
+            >
+              All
+            </Button>
+            <Button
+              variant={activeTab === 'favorite' ? 'gradient' : 'outline'}
+              onClick={() => setActiveTab('favorite')}
+              gradient={{ from: 'red', to: 'primary' }}
+              color="primary"
+              size="compact-xs"
+            >
+              Favorite
+            </Button>
+            <Button
+              variant={activeTab === 'completed' ? 'gradient' : 'outline'}
+              onClick={() => setActiveTab('completed')}
+              gradient={{ from: 'red', to: 'primary' }}
+              color="primary"
+              size="compact-xs"
+            >
+              Completed
+            </Button>
           </Group>
         </Group>
         <Stack mt={16}>
