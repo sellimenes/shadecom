@@ -1,12 +1,25 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './AdminProductForm.module.css';
 
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
-import { Grid, Paper, Stack, Text, Box, TextInput, Button, Flex, NumberInput } from '@mantine/core';
+import {
+  Grid,
+  Paper,
+  Stack,
+  Text,
+  Box,
+  TextInput,
+  Button,
+  Flex,
+  NumberInput,
+  Combobox,
+  useCombobox,
+  UnstyledButton,
+} from '@mantine/core';
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 type Props = {};
@@ -79,7 +92,7 @@ const AdminProductForm = (props: Props) => {
               required
               {...form.getInputProps('name')}
             />
-            <Flex gap={16} mt={8}>
+            <Flex gap={16} mt={8} align={'flex-start'}>
               <NumberInput
                 label="Price"
                 description="Product price"
@@ -123,7 +136,9 @@ const AdminProductForm = (props: Props) => {
       </Grid.Col>
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Stack>
-          <FormPaper title="Category">test</FormPaper>
+          <FormPaper title="Category">
+            <CategoryCombobox />
+          </FormPaper>
           <FormPaper title="Publish">Test</FormPaper>
           <FormPaper title="Meta Data">Test</FormPaper>
         </Stack>
@@ -144,3 +159,54 @@ const FormPaper: React.FC<{ children: React.ReactNode; title: string }> = ({ chi
     <Box p={'sm'}>{children}</Box>
   </Paper>
 );
+
+const categories = ['Electronics', 'Clothing', 'Shoes', 'Accessories', 'Jewelry', 'Watches'];
+const CategoryCombobox = () => {
+  const combobox = useCombobox();
+  const [value, setValue] = useState('');
+  const shouldFilterOptions = !categories.some((item) => item === value);
+  const filteredOptions = shouldFilterOptions
+    ? categories.filter((item) => item.toLowerCase().includes(value.toLowerCase().trim()))
+    : categories;
+
+  const options = filteredOptions.map((item) => (
+    <Combobox.Option value={item} key={item}>
+      {item}
+    </Combobox.Option>
+  ));
+  return (
+    <Box className={classes.categoryComboboxWrapper}>
+      <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
+      <Combobox
+        onOptionSubmit={(optionValue) => {
+          setValue(optionValue);
+          combobox.closeDropdown();
+        }}
+        store={combobox}
+      >
+        <Combobox.Target>
+          <TextInput
+            required
+            label="Choose category"
+            placeholder="Choose category or type to search"
+            value={value}
+            onChange={(event) => {
+              setValue(event.currentTarget.value);
+              combobox.openDropdown();
+              combobox.updateSelectedOptionIndex();
+            }}
+            onClick={() => combobox.openDropdown()}
+            onFocus={() => combobox.openDropdown()}
+            onBlur={() => combobox.closeDropdown()}
+          />
+        </Combobox.Target>
+
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {options.length === 0 ? <Combobox.Empty>Nothing found</Combobox.Empty> : options}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </Box>
+  );
+};
