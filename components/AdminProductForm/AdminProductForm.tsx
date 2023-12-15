@@ -7,6 +7,7 @@ import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { Grid, Paper, Stack, Text, Box, TextInput, Button, Flex, NumberInput } from '@mantine/core';
+import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 type Props = {};
 
@@ -112,7 +113,9 @@ const AdminProductForm = (props: Props) => {
             </Flex>
           </FormPaper>
           <FormPaper title="Product Gallery">test</FormPaper>
-          <FormPaper title="Description">test</FormPaper>
+          <FormPaper title="Description">
+            <RichTextEditorComp />
+          </FormPaper>
         </Stack>
         <Button mt={8} onClick={() => handleSubmit()}>
           Submit
