@@ -19,6 +19,8 @@ import {
   Combobox,
   useCombobox,
   UnstyledButton,
+  Textarea,
+  TagsInput,
 } from '@mantine/core';
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
@@ -35,27 +37,31 @@ const AdminProductForm = (props: Props) => {
     description: z.string().min(2, { message: 'Description should have at least 2 letters' }),
     images: z.array(z.string()),
     published: z.boolean(),
-    metaTitle: z.string().min(2, { message: 'Meta title should have at least 2 letters' }),
+    metaTitle: z
+      .string()
+      .min(10, { message: 'Meta title should have at least 10 letters' })
+      .optional(),
     metaDescription: z
       .string()
-      .min(2, { message: 'Meta description should have at least 2 letters' }),
-    metaKeywords: z.string().min(2, { message: 'Meta keywords should have at least 2 letters' }),
+      .min(100, { message: 'Meta description should have at least 100 letters' })
+      .optional(),
+    metaKeywords: z.array(z.string()).optional(),
   });
 
   const form = useForm({
     initialValues: {
-      name: '',
-      //   price: 0,
-      //   salePrice: 0,
-      //   saleDiscount: 0,
+      // name: '',
+      // price: 0,
+      // salePrice: 0,
+      // saleDiscount: 0,
       stock: 0,
       category: '',
       description: '',
       images: [],
       published: false,
-      metaTitle: '',
-      metaDescription: '',
-      metaKeywords: '',
+      // metaTitle: '',
+      // metaDescription: '',
+      metaKeywords: [],
     },
     validate: zodResolver(schema),
   });
@@ -140,7 +146,28 @@ const AdminProductForm = (props: Props) => {
             <CategoryCombobox />
           </FormPaper>
           <FormPaper title="Publish">Test</FormPaper>
-          <FormPaper title="Meta Data">Test</FormPaper>
+          <FormPaper title="Meta Data">
+            <Stack gap={8}>
+              <TextInput
+                label="Meta Title"
+                placeholder="Enter meta title"
+                {...form.getInputProps('metaTitle')}
+              />
+              <Textarea
+                label="Meta Description"
+                placeholder="Enter meta description"
+                {...form.getInputProps('metaDescription')}
+              />
+              <TagsInput
+                label="Meta Keywords (max 5)"
+                placeholder='Press "Enter" to add new keyword'
+                clearable
+                maxTags={5}
+                {...form.getInputProps('metaKeywords')}
+                defaultValue={[]}
+              />
+            </Stack>
+          </FormPaper>
         </Stack>
       </Grid.Col>
     </Grid>
