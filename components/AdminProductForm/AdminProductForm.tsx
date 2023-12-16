@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import classes from './AdminProductForm.module.css';
+import '@mantine/dropzone/styles.css';
 
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
@@ -21,7 +22,13 @@ import {
   UnstyledButton,
   Textarea,
   TagsInput,
+  Autocomplete,
+  Select,
+  Group,
+  rem,
 } from '@mantine/core';
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 type Props = {};
@@ -36,7 +43,7 @@ const AdminProductForm = (props: Props) => {
     category: z.string().min(2, { message: 'Category should have at least 2 letters' }),
     description: z.string().min(2, { message: 'Description should have at least 2 letters' }),
     images: z.array(z.string()),
-    published: z.boolean(),
+    published: z.string(),
     metaTitle: z
       .string()
       .min(10, { message: 'Meta title should have at least 10 letters' })
@@ -58,7 +65,7 @@ const AdminProductForm = (props: Props) => {
       category: '',
       description: '',
       images: [],
-      published: false,
+      published: 'Draft',
       // metaTitle: '',
       // metaDescription: '',
       metaKeywords: [],
@@ -131,7 +138,54 @@ const AdminProductForm = (props: Props) => {
               />
             </Flex>
           </FormPaper>
-          <FormPaper title="Product Gallery">test</FormPaper>
+          <FormPaper title="Product Gallery">
+            <Dropzone
+              // loading
+              onDrop={(files) => console.log('accepted files', files)}
+              onReject={(files) => console.log('rejected files', files)}
+              maxSize={5 * 1024 ** 2}
+              accept={IMAGE_MIME_TYPE}
+              {...props}
+            >
+              <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+                <Dropzone.Accept>
+                  <IconUpload
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-blue-6)',
+                    }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Accept>
+                <Dropzone.Reject>
+                  <IconX
+                    style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-red-6)' }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Reject>
+                <Dropzone.Idle>
+                  <IconPhoto
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-dimmed)',
+                    }}
+                    stroke={1.5}
+                  />
+                </Dropzone.Idle>
+
+                <div>
+                  <Text size="xl" inline>
+                    Drag images here or click to select files
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    Attach as many files as you like, each file should not exceed 5mb
+                  </Text>
+                </div>
+              </Group>
+            </Dropzone>
+          </FormPaper>
           <FormPaper title="Description">
             <RichTextEditorComp />
           </FormPaper>
@@ -145,7 +199,15 @@ const AdminProductForm = (props: Props) => {
           <FormPaper title="Category">
             <CategoryCombobox />
           </FormPaper>
-          <FormPaper title="Publish">Test</FormPaper>
+          <FormPaper title="Status">
+            <Select
+              label="Published"
+              placeholder="Select published status"
+              data={['Published', 'Draft']}
+              required
+              {...form.getInputProps('published')}
+            />
+          </FormPaper>
           <FormPaper title="Meta Data">
             <Stack gap={8}>
               <TextInput
