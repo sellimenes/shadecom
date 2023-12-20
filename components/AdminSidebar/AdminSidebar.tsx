@@ -12,6 +12,7 @@ import {
   IconMoon,
   IconSun,
   IconExternalLink,
+  IconCategory2,
 } from '@tabler/icons-react';
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
@@ -33,6 +34,11 @@ const mockdata = [
     label: 'Products',
     icon: IconBuildingStore,
     link: '/admin/products',
+  },
+  {
+    label: 'Categories',
+    icon: IconCategory2,
+    link: '/admin/categories',
   },
   { label: 'Users', icon: IconUsers },
   { label: 'Analytics', icon: IconPresentationAnalytics },

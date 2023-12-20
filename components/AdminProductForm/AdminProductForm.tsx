@@ -91,7 +91,7 @@ const AdminProductForm = (props: Props) => {
       console.log('error');
     }
 
-    console.log('test');
+    console.log(form);
   };
 
   return (
