@@ -14,6 +14,7 @@ import {
   Modal,
   Input,
   Button,
+  Skeleton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { modals } from '@mantine/modals';
@@ -134,7 +135,14 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Skeleton height={30} mt={6} radius="xl" />
+        <Skeleton height={30} mt={6} radius="xl" />
+        <Skeleton height={30} mt={6} radius="xl" />
+        <Skeleton height={30} mt={6} radius="xl" />
+      </>
+    );
   }
 
   const rows = categories?.map((category: category) => {
@@ -149,18 +157,9 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
           />
         </Table.Td>
         <Table.Td>
-          <Group gap="sm">
-            <Avatar
-              size={26}
-              src={
-                'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png'
-              }
-              radius={26}
-            />
-            <Text size="sm" fw={500}>
-              {category.Name}
-            </Text>
-          </Group>
+          <Text size="sm" fw={500}>
+            {category.Name}
+          </Text>
         </Table.Td>
 
         <Table.Td>
