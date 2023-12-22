@@ -5,6 +5,8 @@ import { theme } from '../theme';
 
 import './globals.css';
 import { ModalsProvider } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 
 export const metadata = {
   title: 'Shadecommerce',
@@ -24,6 +26,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
+          <Notifications position="top-right" limit={5} />
           <ModalsProvider>{children}</ModalsProvider>
         </MantineProvider>
       </body>
