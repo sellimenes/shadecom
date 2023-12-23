@@ -19,9 +19,9 @@ import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksG
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import classes from './AdminSidebar.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const mockdata = [
+const sidebarData = [
   { label: 'Go to site', icon: IconExternalLink, link: '/' },
   { label: 'Dashboard', icon: IconGauge, link: '/admin' },
   {
@@ -46,8 +46,8 @@ const mockdata = [
     label: 'Settings',
     icon: IconAdjustments,
     links: [
-      { label: 'General settings', link: '/' },
-      { label: 'SEO settings', link: '/' },
+      { label: 'General settings', link: '/admin/settings/general' },
+      { label: 'SEO settings', link: '/admin/settings/seo' },
     ],
   },
   {
@@ -62,12 +62,26 @@ const mockdata = [
 ];
 
 export function AdminSidebar() {
+  const [siteSettings, setSiteSettings] = useState({});
   const pathname = usePathname();
-  const links = mockdata.map((item) => {
-    const isActive = item.link === pathname;
+  const links = sidebarData.map((item) => {
+    const isActive = item.link === pathname || item.links?.some((link) => link.link === pathname);
     return <LinksGroup {...item} key={item.label} isActive={isActive} />;
   });
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+
+  const getSiteSettings = async () => {
+    const res = await fetch('http://localhost:8080/api/settings', {
+      cache: 'force-cache',
+    });
+    const data = await res.json();
+    setSiteSettings(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getSiteSettings();
+  }, [siteSettings]);
 
   return (
     <nav className={classes.navbar}>
@@ -80,7 +94,7 @@ export function AdminSidebar() {
               variant="gradient"
               gradient={{ from: 'pink', to: 'primary' }}
             >
-              Shade.
+              {siteSettings?.WebsiteName}
             </Text>
           </Link>
           <Code fw={700}>v0.0.1</Code>
