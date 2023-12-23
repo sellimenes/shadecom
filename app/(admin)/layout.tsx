@@ -1,17 +1,21 @@
-import React from 'react';
-
 import classes from './AdminLayout.module.css';
+import React, { memo } from 'react';
 
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
 import { AdminSidebar } from '@/components/AdminSidebar/AdminSidebar';
 
 type Props = {};
 
-const layout = ({ children }: { children: any }) => {
+const fetchSettings = async () => {
+  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings');
+  const data = await res.json();
+  return data;
+};
+
+const layout = async ({ children }: { children: any }) => {
+  const settingsData = await fetchSettings();
   return (
     <div className={classes.adminWrapper}>
-      <AdminSidebar />
+      <AdminSidebar settingsData={settingsData} />
       <div className={classes.childrenWrapper}>{children}</div>
     </div>
   );

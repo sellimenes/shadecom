@@ -19,7 +19,6 @@ import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksG
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import classes from './AdminSidebar.module.css';
-import { useEffect, useState } from 'react';
 
 const sidebarData = [
   { label: 'Go to site', icon: IconExternalLink, link: '/' },
@@ -61,27 +60,13 @@ const sidebarData = [
   },
 ];
 
-export function AdminSidebar() {
-  const [siteSettings, setSiteSettings] = useState({});
+export const AdminSidebar = ({ settingsData }: any) => {
   const pathname = usePathname();
   const links = sidebarData.map((item) => {
     const isActive = item.link === pathname || item.links?.some((link) => link.link === pathname);
     return <LinksGroup {...item} key={item.label} isActive={isActive} />;
   });
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-
-  const getSiteSettings = async () => {
-    const res = await fetch('http://localhost:8080/api/settings', {
-      cache: 'force-cache',
-    });
-    const data = await res.json();
-    setSiteSettings(data);
-    console.log(data);
-  };
-
-  useEffect(() => {
-    getSiteSettings();
-  }, [siteSettings]);
 
   return (
     <nav className={classes.navbar}>
@@ -94,7 +79,7 @@ export function AdminSidebar() {
               variant="gradient"
               gradient={{ from: 'pink', to: 'primary' }}
             >
-              {siteSettings?.WebsiteName}
+              {settingsData?.WebsiteName}
             </Text>
           </Link>
           <Code fw={700}>v0.0.1</Code>
@@ -131,4 +116,4 @@ export function AdminSidebar() {
       </div>
     </nav>
   );
-}
+};
