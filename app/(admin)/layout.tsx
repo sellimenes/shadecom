@@ -1,5 +1,6 @@
 import classes from './AdminLayout.module.css';
-import React, { memo } from 'react';
+import React, { Suspense } from 'react';
+import Loading from './loading';
 
 import { AdminSidebar } from '@/components/AdminSidebar/AdminSidebar';
 
@@ -16,7 +17,9 @@ const layout = async ({ children }: { children: any }) => {
   return (
     <div className={classes.adminWrapper}>
       <AdminSidebar settingsData={settingsData} />
-      <div className={classes.childrenWrapper}>{children}</div>
+      <Suspense fallback={<Loading />}>
+        <div className={classes.childrenWrapper}>{children}</div>
+      </Suspense>
     </div>
   );
 };

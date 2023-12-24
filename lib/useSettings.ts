@@ -4,30 +4,10 @@ import { create } from 'zustand';
 
 interface SettingsState {
   data: object | null;
-  loading: boolean;
-  fetchSettings: () => void;
+  setSettings: (data: any) => void;
 }
-
-let cachedData: object | null = null;
-
-const fetchData = async () => {
-  if (cachedData) {
-    return cachedData;
-  }
-
-  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings');
-  const data = await res.json();
-  cachedData = data;
-  return data;
-};
 
 export const useSettings = create<SettingsState>((set) => ({
   data: null,
-  loading: false,
-  fetchSettings: async () => {
-    set({ loading: true });
-    const data = await fetchData();
-    set({ data, loading: false });
-  },
-  serialize: true,
+  setSettings: (data: any) => set({ data }),
 }));

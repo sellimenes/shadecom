@@ -13,7 +13,7 @@ export const metadata = {
   description: 'Shadecommerce | Selim Enes',
 };
 
-export default function RootLayout({ children }: { children: any }) {
+export default async function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en">
       <head>
