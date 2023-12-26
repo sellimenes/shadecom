@@ -5,18 +5,20 @@ import { useForm } from '@mantine/form';
 import { Button, NumberInput, Stack, TextInput } from '@mantine/core';
 import { z } from 'zod';
 import { zodResolver } from 'mantine-form-zod-resolver';
+import { revalidateSettings } from '@/lib/actionsSettings';
 
 type Props = {
   settingsData?: any;
 };
 
+const phoneRegex = /^(05|5)?[0-9]{9}$/;
 const schema = z.object({
   WebsiteName: z.string().min(2, { message: 'Name should have at least 2 letters' }),
   WebsiteDescription: z
     .string()
     .min(40, { message: 'Description should have at least 40 letters' }),
   WebsiteEmail: z.string().email({ message: 'Invalid email' }),
-  WebsitePhone: z.number().lte(999999999999, { message: 'Invalid phone number' }).gte(1000000000),
+  WebsitePhone: z.string().min(10, { message: 'Invalid phone number' }),
 });
 
 const AdminSiteSettingsForms = ({ settingsData }: Props) => {
@@ -33,7 +35,6 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
 
   const handleSubmit = async () => {
     try {
-      form.validate();
       setLoading(true);
 
       // Convert WebsitePhone to string
@@ -42,9 +43,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
         WebsitePhone: String(form.values.WebsitePhone), // Ensure string conversion
       };
 
-      // Add + sign to the beginning of the phone number
-      formValuesWithStringPhone.WebsitePhone = '+' + formValuesWithStringPhone.WebsitePhone;
-
+      form.validate();
       await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings', {
         method: 'PUT',
         body: JSON.stringify(formValuesWithStringPhone),
@@ -52,6 +51,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
           'Content-Type': 'application/json',
         },
       });
+      revalidateSettings();
     } catch (error) {
       console.log(error);
     } finally {

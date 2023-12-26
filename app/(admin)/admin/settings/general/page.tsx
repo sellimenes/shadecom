@@ -1,17 +1,12 @@
 import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
 import React, { Suspense } from 'react';
 import AdminSiteSettingsForms from '@/components/AdminSiteSettingsForms/AdminSiteSettingsForms';
+import { getSettings } from '@/lib/actionsSettings';
 
 type Props = {};
 
-const fethSettings = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings');
-  const data = await res.json();
-  return data;
-};
-
 const GeneralSettingsPage = async (props: Props) => {
-  const settings = await fethSettings();
+  const settings = await getSettings();
   return (
     <div>
       <AdminPageTitle title="General settings" />

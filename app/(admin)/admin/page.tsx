@@ -2,12 +2,10 @@
 
 import AdminStats from '@/components/AdminStats/AdminStats';
 import classes from './AdminPage.module.css';
-import { Title, Box, Flex, Skeleton, Group, Grid } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
 import AdminTodo from '@/components/AdminTodo/AdminTodo';
 import { AdminBestSellersTable } from '@/components/AdminBestSellersTable/AdminBestSellersTable';
-import { useEffect } from 'react';
-import { useSettings } from '@/lib/useSettings';
 
 // TODO: Drag and drop layout need to handle.
 type Props = {};
