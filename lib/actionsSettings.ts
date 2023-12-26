@@ -12,6 +12,6 @@ export const getSettings = async () => {
   return data;
 };
 
-export const revalidateSettings = async () => {
+export const revalidateSettings = () => {
   revalidateTag('settings');
 };
