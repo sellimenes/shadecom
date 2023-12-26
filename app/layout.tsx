@@ -7,7 +7,6 @@ import './globals.css';
 import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
-import { revalidateSettings } from '@/lib/actionsSettings';
 
 export const metadata = {
   title: 'Shadecommerce',
@@ -15,7 +14,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: any }) {
-  revalidateSettings();
   return (
     <html lang="en">
       <head>
