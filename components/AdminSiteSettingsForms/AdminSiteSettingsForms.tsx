@@ -5,7 +5,7 @@ import { useForm } from '@mantine/form';
 import { Button, NumberInput, Stack, TextInput } from '@mantine/core';
 import { z } from 'zod';
 import { zodResolver } from 'mantine-form-zod-resolver';
-import { revalidateSettings } from '@/lib/actionsSettings';
+import { changeSettings, revalidateSettings } from '@/lib/actionsSettings';
 
 type Props = {
   settingsData?: any;
@@ -44,13 +44,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
       };
 
       form.validate();
-      await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings', {
-        method: 'PUT',
-        body: JSON.stringify(formValuesWithStringPhone),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      await changeSettings(formValuesWithStringPhone);
       revalidateSettings();
     } catch (error) {
       console.log(error);
