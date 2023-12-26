@@ -25,6 +25,7 @@ export const changeSettings = async (settings: any) => {
     },
     body: JSON.stringify(settings),
   });
+  revalidateTag('settings');
   const data = await res.json();
   return data;
 };

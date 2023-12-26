@@ -45,7 +45,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
 
       form.validate();
       await changeSettings(formValuesWithStringPhone);
-      revalidateSettings();
+      // revalidateSettings();
     } catch (error) {
       console.log(error);
     } finally {
