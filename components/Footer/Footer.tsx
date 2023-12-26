@@ -4,6 +4,10 @@ import { Text, Container, ActionIcon, Group, rem } from '@mantine/core';
 import { IconBrandX, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import classes from './Footer.module.css';
 
+type Props = {
+  settingsData?: any;
+};
+
 const data = [
   {
     title: 'About',
@@ -34,7 +38,7 @@ const data = [
   },
 ];
 
-export function Footer() {
+export function Footer({ settingsData }: Props) {
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
       <Text<'a'>
@@ -61,7 +65,7 @@ export function Footer() {
       <Container size={'1600px'} w={'90%'} className={classes.inner}>
         <div className={classes.logo}>
           <Text size="32px" fw={500}>
-            Shade
+            {settingsData.WebsiteName}
           </Text>
           <Text size="xs" c="dimmed" className={classes.description}>
             Build fully functional accessible web applications faster than ever

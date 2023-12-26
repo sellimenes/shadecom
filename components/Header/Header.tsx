@@ -34,6 +34,10 @@ import classes from './Header.module.css';
 
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 
+type Props = {
+  settingsData?: any;
+};
+
 const links = [
   { link: '#1', label: 'Categories', links: [{ link: '/category/1', label: 'Category 1' }] },
   { link: '/account', label: 'Account' },
@@ -41,7 +45,7 @@ const links = [
   { link: '/basket', label: 'My Basket' },
 ];
 
-export function Header() {
+export function Header({ settingsData }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
@@ -120,7 +124,7 @@ export function Header() {
               variant="gradient"
               gradient={{ from: 'pink', to: 'primary' }}
             >
-              Shade.
+              {settingsData.WebsiteName}
             </Text>
           </Link>
           <TextInput
