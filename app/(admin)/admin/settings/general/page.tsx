@@ -1,5 +1,5 @@
 import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import React, { Suspense } from 'react';
+import React from 'react';
 import AdminSiteSettingsForms from '@/components/AdminSiteSettingsForms/AdminSiteSettingsForms';
 import { getSettings } from '@/lib/actionsSettings';
 
@@ -10,9 +10,7 @@ const GeneralSettingsPage = async (props: Props) => {
   return (
     <div>
       <AdminPageTitle title="General settings" />
-      <Suspense fallback={<div>Loading...</div>}>
-        <AdminSiteSettingsForms settingsData={settings} />
-      </Suspense>
+      <AdminSiteSettingsForms settingsData={settings} />
     </div>
   );
 };
