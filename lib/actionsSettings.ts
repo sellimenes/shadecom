@@ -14,4 +14,5 @@ export const getSettings = async () => {
 
 export const revalidateSettings = () => {
   revalidateTag('settings');
+  console.log('revalidate settings');
 };
