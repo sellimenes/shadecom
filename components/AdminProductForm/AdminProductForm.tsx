@@ -28,7 +28,7 @@ import {
   rem,
 } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 type Props = {};
@@ -73,6 +73,8 @@ const AdminProductForm = (props: Props) => {
     validate: zodResolver(schema),
   });
 
+  const [images, setImages] = useState<any[]>([]);
+
   //   Set initial values on edit mode.
   //   useEffect(() => {
   //     fetch('/api/user')
@@ -93,6 +95,10 @@ const AdminProductForm = (props: Props) => {
 
     console.log(form);
   };
+
+  useEffect(() => {
+    console.log(images);
+  }, [images]);
 
   return (
     <Grid>
@@ -141,7 +147,7 @@ const AdminProductForm = (props: Props) => {
           <FormPaper title="Product Gallery">
             <Dropzone
               // loading
-              onDrop={(files) => console.log('accepted files', files)}
+              onDrop={(files) => setImages([...images, ...files])}
               onReject={(files) => console.log('rejected files', files)}
               maxSize={5 * 1024 ** 2}
               accept={IMAGE_MIME_TYPE}
@@ -185,6 +191,24 @@ const AdminProductForm = (props: Props) => {
                 </div>
               </Group>
             </Dropzone>
+            {images.length > 0 && (
+              <Flex wrap="wrap" mt={8} gap="sm">
+                {images.map((image) => (
+                  <Paper
+                    key={image.path}
+                    shadow="sm"
+                    style={{ width: rem(120), height: rem(120) }}
+                    withBorder
+                  >
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={image.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </Paper>
+                ))}
+              </Flex>
+            )}
           </FormPaper>
           <FormPaper title="Description">
             <RichTextEditorComp />
