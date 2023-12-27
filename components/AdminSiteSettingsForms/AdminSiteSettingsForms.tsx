@@ -43,7 +43,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
         WebsitePhone: String(form.values.WebsitePhone), // Ensure string conversion
       };
 
-      form.validate();
+      // form.validate();
       await changeSettings(formValuesWithStringPhone);
       // revalidateSettings();
     } catch (error) {

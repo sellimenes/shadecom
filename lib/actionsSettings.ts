@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export const getSettings = async () => {
   const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'settings', {
@@ -25,7 +25,8 @@ export const changeSettings = async (settings: any) => {
     },
     body: JSON.stringify(settings),
   });
-  revalidateTag('settings');
+  // revalidateTag('settings');
+  revalidatePath('/', 'layout');
   const data = await res.json();
   return data;
 };
