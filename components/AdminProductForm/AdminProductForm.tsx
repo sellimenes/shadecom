@@ -82,7 +82,7 @@ const AdminProductForm = (props: Props) => {
     for (let i = 0; i < images.length; i++) {
       formData.append('files[]', images[i]);
     }
-    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'uploads', {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'upload', {
       method: 'POST',
       body: formData,
     });
