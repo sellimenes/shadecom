@@ -13,6 +13,7 @@ import {
   IconSun,
   IconExternalLink,
   IconCategory2,
+  IconPhoto,
 } from '@tabler/icons-react';
 import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
 import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
@@ -38,6 +39,11 @@ const sidebarData = [
     label: 'Categories',
     icon: IconCategory2,
     link: '/admin/categories',
+  },
+  {
+    label: 'Gallery',
+    icon: IconPhoto,
+    link: '/admin/gallery',
   },
   { label: 'Users', icon: IconUsers },
   { label: 'Analytics', icon: IconPresentationAnalytics },
