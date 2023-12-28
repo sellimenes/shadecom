@@ -75,6 +75,19 @@ const AdminProductForm = (props: Props) => {
 
   const [images, setImages] = useState<any[]>([]);
 
+  const uploadImages = async () => {
+    // Create a new FormData object
+    const formData = new FormData();
+    // Loop over the images array and append each file to the FormData object
+    for (let i = 0; i < images.length; i++) {
+      formData.append('files[]', images[i]);
+    }
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'uploads', {
+      method: 'POST',
+      body: formData,
+    });
+  };
+
   //   Set initial values on edit mode.
   //   useEffect(() => {
   //     fetch('/api/user')
@@ -89,6 +102,7 @@ const AdminProductForm = (props: Props) => {
   //   }, []);
 
   const handleSubmit = () => {
+    uploadImages();
     if (form.validate().hasErrors) {
       console.log('error');
     }
