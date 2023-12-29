@@ -14,3 +14,13 @@
   text-decoration: underline;
   color: var(--mantine-color-primary-5);
 }
+
+.imageWrapper {
+  position: relative;
+}
+
+.deleteImgBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

@@ -26,6 +26,7 @@ import {
   Select,
   Group,
   rem,
+  CloseButton,
 } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
@@ -33,7 +34,27 @@ import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 type Props = {};
 
+type Product = {
+  Name: string;
+  Description: string;
+  Price: number;
+  Stock: number;
+  Images: string[];
+  CategoryID: number;
+  IsActive: boolean;
+  IsSale: boolean;
+  IsFeatured: boolean;
+  SaleProcent: number;
+};
+
 const AdminProductForm = (props: Props) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [images, setImages] = useState<any[]>([]);
+  const imgS3BaseURL = 'https://shadecom.s3.eu-central-1.amazonaws.com/';
+  const [imagesURLList, setImagesURLList] = useState<any[]>([]);
+  // setImagesURLList(images.map((img) => imgS3BaseURL + img.name));
+
   const schema = z.object({
     name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
     price: z.number().min(0, { message: 'Price should be greater than 0' }),
@@ -57,11 +78,11 @@ const AdminProductForm = (props: Props) => {
 
   const form = useForm({
     initialValues: {
-      // name: '',
-      // price: 0,
-      // salePrice: 0,
-      // saleDiscount: 0,
-      stock: 0,
+      name: '',
+      price: null,
+      salePrice: null,
+      saleDiscount: null,
+      stock: null,
       category: '',
       description: '',
       images: [],
@@ -73,9 +94,8 @@ const AdminProductForm = (props: Props) => {
     validate: zodResolver(schema),
   });
 
-  const [images, setImages] = useState<any[]>([]);
-
   const uploadImages = async () => {
+    setLoading(true);
     // Create a new FormData object
     const formData = new FormData();
     // Loop over the images array and append each file to the FormData object
@@ -86,32 +106,52 @@ const AdminProductForm = (props: Props) => {
       method: 'POST',
       body: formData,
     });
+
+    setLoading(false);
   };
 
-  //   Set initial values on edit mode.
-  //   useEffect(() => {
-  //     fetch('/api/user')
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         // Update initial values after form was initialized
-  //         // These values will be used in form.reset
-  //         // and to compare values to get dirty state
-  //         form.setInitialValues(data);
-  //         form.setValues(data);
-  //       });
-  //   }, []);
+  const deleteImageFromState = (image: FileWithPath) => {
+    setImages(images.filter((img) => img.path !== image.path));
+  };
 
-  const handleSubmit = () => {
-    uploadImages();
+  const handleSubmit = async () => {
+    await uploadImages();
     if (form.validate().hasErrors) {
       console.log('error');
     }
 
     console.log(form);
+
+    if (form.values.price == 0 || form.values.salePrice == 0) {
+      console.log('price is 0, are you crazy?');
+      return;
+    }
+    setImagesURLList(images.map((img) => imgS3BaseURL + img.path));
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'product', {
+      method: 'POST',
+      body: JSON.stringify({
+        Name: form.values.name,
+        Description: form.values.description,
+        Price: form.values.price,
+        Stock: form.values.stock,
+        Images: imagesURLList,
+        CategoryID: 8,
+        IsActive: true,
+        IsSale: false,
+        IsFeatured: false,
+        SaleProcent: 0,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await res.json();
   };
 
   useEffect(() => {
     console.log(images);
+    setImagesURLList(images.map((img) => imgS3BaseURL + img.name));
+    console.log(imagesURLList);
   }, [images]);
 
   return (
@@ -120,6 +160,7 @@ const AdminProductForm = (props: Props) => {
         <Stack>
           <FormPaper title="General Information">
             <TextInput
+              disabled={loading}
               label="Product Name"
               placeholder="Enter product name"
               required
@@ -127,6 +168,7 @@ const AdminProductForm = (props: Props) => {
             />
             <Flex gap={16} mt={8} align={'flex-start'}>
               <NumberInput
+                disabled={loading}
                 label="Price"
                 description="Product price"
                 placeholder="123"
@@ -135,6 +177,7 @@ const AdminProductForm = (props: Props) => {
                 {...form.getInputProps('price')}
               />
               <NumberInput
+                disabled={loading}
                 label="Sale Price"
                 description="Sale price, leave empty if product is not on sale"
                 placeholder="49.99"
@@ -142,6 +185,7 @@ const AdminProductForm = (props: Props) => {
                 {...form.getInputProps('salePrice')}
               />
               <NumberInput
+                disabled={loading}
                 label="Discount"
                 description="Discount in %, leave empty if product is not on sale"
                 placeholder="25%"
@@ -149,6 +193,7 @@ const AdminProductForm = (props: Props) => {
                 {...form.getInputProps('saleDiscount')}
               />
               <NumberInput
+                disabled={loading}
                 label="Stock"
                 description="Product stock"
                 placeholder="0"
@@ -160,7 +205,7 @@ const AdminProductForm = (props: Props) => {
           </FormPaper>
           <FormPaper title="Product Gallery">
             <Dropzone
-              // loading
+              loading={loading}
               onDrop={(files) => setImages([...images, ...files])}
               onReject={(files) => console.log('rejected files', files)}
               maxSize={5 * 1024 ** 2}
@@ -213,7 +258,12 @@ const AdminProductForm = (props: Props) => {
                     shadow="sm"
                     style={{ width: rem(120), height: rem(120) }}
                     withBorder
+                    className={classes.imageWrapper}
                   >
+                    <CloseButton
+                      className={classes.deleteImgBtn}
+                      onClick={() => deleteImageFromState(image)}
+                    />
                     <img
                       src={URL.createObjectURL(image)}
                       alt={image.name}
@@ -225,20 +275,21 @@ const AdminProductForm = (props: Props) => {
             )}
           </FormPaper>
           <FormPaper title="Description">
-            <RichTextEditorComp />
+            <RichTextEditorComp disabled={loading} />
           </FormPaper>
         </Stack>
-        <Button mt={8} onClick={() => handleSubmit()}>
+        <Button loading={loading} mt={8} onClick={() => handleSubmit()}>
           Submit
         </Button>
       </Grid.Col>
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Stack>
           <FormPaper title="Category">
-            <CategoryCombobox />
+            <CategoryCombobox loading={loading} />
           </FormPaper>
           <FormPaper title="Status">
             <Select
+              disabled={loading}
               label="Published"
               placeholder="Select published status"
               data={['Published', 'Draft']}
@@ -249,16 +300,19 @@ const AdminProductForm = (props: Props) => {
           <FormPaper title="Meta Data">
             <Stack gap={8}>
               <TextInput
+                disabled={loading}
                 label="Meta Title"
                 placeholder="Enter meta title"
                 {...form.getInputProps('metaTitle')}
               />
               <Textarea
+                disabled={loading}
                 label="Meta Description"
                 placeholder="Enter meta description"
                 {...form.getInputProps('metaDescription')}
               />
               <TagsInput
+                disabled={loading}
                 label="Meta Keywords (max 5)"
                 placeholder='Press "Enter" to add new keyword'
                 clearable
@@ -288,7 +342,7 @@ const FormPaper: React.FC<{ children: React.ReactNode; title: string }> = ({ chi
 );
 
 const categories = ['Electronics', 'Clothing', 'Shoes', 'Accessories', 'Jewelry', 'Watches'];
-const CategoryCombobox = () => {
+const CategoryCombobox = ({ loading }: any) => {
   const combobox = useCombobox();
   const [value, setValue] = useState('');
   const shouldFilterOptions = !categories.some((item) => item === value);
@@ -305,6 +359,7 @@ const CategoryCombobox = () => {
     <Box className={classes.categoryComboboxWrapper}>
       <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
       <Combobox
+        disabled={loading}
         onOptionSubmit={(optionValue) => {
           setValue(optionValue);
           combobox.closeDropdown();
