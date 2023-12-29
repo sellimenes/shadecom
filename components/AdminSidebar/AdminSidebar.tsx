@@ -21,6 +21,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import classes from './AdminSidebar.module.css';
 
+type Props = {
+  WebsiteName: string;
+};
+
 const sidebarData = [
   { label: 'Go to site', icon: IconExternalLink, link: '/' },
   { label: 'Dashboard', icon: IconGauge, link: '/admin' },
@@ -66,7 +70,7 @@ const sidebarData = [
   },
 ];
 
-export const AdminSidebar = ({ settingsData }: any) => {
+export const AdminSidebar = ({ settingsData }: { settingsData: Props }) => {
   const pathname = usePathname();
   const links = sidebarData.map((item) => {
     const isActive = item.link === pathname || item.links?.some((link) => link.link === pathname);
