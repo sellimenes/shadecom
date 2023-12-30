@@ -14,18 +14,28 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
-import classes from './AdminTodo.module.css';
 import { IconPlus } from '@tabler/icons-react';
+import classes from './AdminTodo.module.css';
 
-type Props = {};
+const SingleTodo = () => {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Flex align="center" justify="between">
+      <Checkbox size="xs" color="primary" checked={checked} onChange={() => setChecked(!checked)} />
+      <Text ml={6} size="sm" c="muted" className={`${checked ? classes.todoChecked : ''}`}>
+        Single Todo
+      </Text>
+    </Flex>
+  );
+};
 
-const AdminTodo = (props: Props) => {
+const AdminTodo = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [activeTab, setActiveTab] = useState('all');
   const todos = [1, 2, 3, 4, 5, 6];
   return (
-    <Box h={'300'} p={8} className={classes.todosWrapper}>
-      <ActionIcon className={classes.addTodo} onClick={open} radius={'xl'} bg={'primary'}>
+    <Box h="300" p={8} className={classes.todosWrapper}>
+      <ActionIcon className={classes.addTodo} onClick={open} radius="xl" bg="primary">
         <IconPlus />
       </ActionIcon>
       <Modal opened={opened} onClose={close} title="Add Todo">
@@ -34,9 +44,9 @@ const AdminTodo = (props: Props) => {
           Add
         </Button>
       </Modal>
-      <ScrollArea h={'300'}>
+      <ScrollArea h="300">
         <Group justify="space-between" align="center">
-          <Text c={'primary'} fw={600} fs={'lg'}>
+          <Text c="primary" fw={600} fs="lg">
             Todo
           </Text>
           <Group gap={2}>
@@ -76,23 +86,6 @@ const AdminTodo = (props: Props) => {
         </Stack>
       </ScrollArea>
     </Box>
-  );
-};
-
-const SingleTodo = () => {
-  const [checked, setChecked] = useState(false);
-  return (
-    <Flex align={'center'} justify={'between'}>
-      <Checkbox
-        size="xs"
-        color={'primary'}
-        checked={checked}
-        onChange={() => setChecked(!checked)}
-      />
-      <Text ml={6} size="sm" c={'muted'} className={`${checked ? classes.todoChecked : ''}`}>
-        Single Todo
-      </Text>
-    </Flex>
   );
 };
 

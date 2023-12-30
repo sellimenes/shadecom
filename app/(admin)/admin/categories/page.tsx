@@ -1,13 +1,11 @@
 'use client';
 
-import AdminCategoriesTable from '@/components/AdminCategoriesTable/AdminCategoriesTable';
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import React from 'react';
 import { useDisclosure } from '@mantine/hooks';
 
-type Props = {};
+import AdminCategoriesTable from '@/components/AdminCategoriesTable/AdminCategoriesTable';
+import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
 
-const CategoriesPage = (props: Props) => {
+const CategoriesPage = () => {
   const [isCreateOpen, { open: openCreate, close: closeCreate }] = useDisclosure(false);
   return (
     <div>

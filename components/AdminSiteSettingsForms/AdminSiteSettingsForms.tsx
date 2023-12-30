@@ -1,17 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
 import { Button, NumberInput, Stack, TextInput } from '@mantine/core';
 import { z } from 'zod';
 import { zodResolver } from 'mantine-form-zod-resolver';
-import { changeSettings, revalidateSettings } from '@/lib/actionsSettings';
+import { changeSettings } from '@/lib/actionsSettings';
 
 type Props = {
   settingsData?: any;
 };
 
-const phoneRegex = /^(05|5)?[0-9]{9}$/;
 const schema = z.object({
   WebsiteName: z.string().min(2, { message: 'Name should have at least 2 letters' }),
   WebsiteDescription: z
@@ -53,9 +52,6 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
     }
   };
 
-  useEffect(() => {
-    console.log(settingsData);
-  }, [settingsData]);
   return (
     <Stack gap={6}>
       <TextInput
@@ -90,7 +86,7 @@ const AdminSiteSettingsForms = ({ settingsData }: Props) => {
         loading={loading}
         loaderProps={{ type: 'dots' }}
         onClick={handleSubmit}
-        maw={'max-content'}
+        maw="max-content"
         variant="gradient"
         gradient={{ from: 'pink', to: 'primary' }}
       >

@@ -1,9 +1,7 @@
 import React from 'react';
-import { Group, Paper, Text, ThemeIcon, SimpleGrid, Grid } from '@mantine/core';
+import { Group, Paper, Text, ThemeIcon, Grid } from '@mantine/core';
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons-react';
 import classes from './AdminStats.module.css';
-
-type Props = {};
 
 const data = [
   { title: 'Sales', value: '$13,456', diff: 34 },
@@ -61,7 +59,7 @@ export function AdminStats() {
 
   return (
     <div className={classes.root}>
-      <Grid gutter={'xs'}>{stats}</Grid>
+      <Grid gutter="xs">{stats}</Grid>
     </div>
   );
 }

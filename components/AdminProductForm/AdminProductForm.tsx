@@ -1,8 +1,6 @@
 'use client';
 
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
-import classes from './AdminProductForm.module.css';
-import '@mantine/dropzone/styles.css';
+import React, { useCallback, useState, useMemo } from 'react';
 
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
@@ -29,9 +27,11 @@ import {
 } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
+
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
-type Props = {};
+import '@mantine/dropzone/styles.css';
+import classes from './AdminProductForm.module.css';
 
 const schema = z.object({
   name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
@@ -54,12 +54,84 @@ const schema = z.object({
   metaKeywords: z.array(z.string()).optional(),
 });
 
+type Props = {};
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const imgS3BaseURL = 'https://shadecom.s3.eu-central-1.amazonaws.com/';
+
+const FormPaper: React.FC<{ children: React.ReactNode; title: string }> = ({ children, title }) => (
+  <Paper shadow="sm" withBorder>
+    <Box className={classes.paperTitle}>
+      <Text size="md" fw={500} p="sm">
+        {title}
+      </Text>
+    </Box>
+    <Box p="sm">{children}</Box>
+  </Paper>
+);
+
+const categories = ['Electronics', 'Clothing', 'Shoes', 'Accessories', 'Jewelry', 'Watches'];
+const CategoryCombobox = ({ loading }: { loading: boolean }) => {
+  const combobox = useCombobox();
+  const [value, setValue] = useState('');
+
+  const shouldFilterOptions = !categories.some((item) => item === value);
+  const filteredOptions = shouldFilterOptions
+    ? categories.filter((item) => item.toLowerCase().includes(value.toLowerCase().trim()))
+    : categories;
+
+  const options = useMemo(
+    () =>
+      filteredOptions.map((item) => (
+        <Combobox.Option value={item} key={item}>
+          {item}
+        </Combobox.Option>
+      )),
+    [filteredOptions]
+  );
+
+  return (
+    <Box className={classes.categoryComboboxWrapper}>
+      <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
+      <Combobox
+        disabled={loading}
+        onOptionSubmit={(optionValue) => {
+          setValue(optionValue);
+          combobox.closeDropdown();
+        }}
+        store={combobox}
+      >
+        <Combobox.Target>
+          <TextInput
+            required
+            label="Choose category"
+            placeholder="Choose category or type to search"
+            value={value}
+            onChange={(event) => {
+              setValue(event.currentTarget.value);
+              combobox.openDropdown();
+              combobox.updateSelectedOptionIndex();
+            }}
+            onClick={() => combobox.openDropdown()}
+            onFocus={() => combobox.openDropdown()}
+            onBlur={() => combobox.closeDropdown()}
+          />
+        </Combobox.Target>
+
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {options.length === 0 ? <Combobox.Empty>Nothing found</Combobox.Empty> : options}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </Box>
+  );
+};
+
 const AdminProductForm = (props: Props) => {
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [loading, setLoading] = useState<boolean>(false);
 
   const [images, setImages] = useState<FileWithPath[]>([]);
-  const imgS3BaseURL = 'https://shadecom.s3.eu-central-1.amazonaws.com/';
   const [imagesURLList, setImagesURLList] = useState<string[]>([]);
 
   const form = useForm({
@@ -82,10 +154,10 @@ const AdminProductForm = (props: Props) => {
 
   const uploadImages = useCallback(async () => {
     const formData = new FormData();
-    for (let i = 0; i < images.length; i++) {
+    for (let i = 0; i < images.length; i += 1) {
       formData.append('files[]', images[i]);
     }
-    await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'upload', {
+    await fetch(`${API_BASE_URL}upload`, {
       method: 'POST',
       body: formData,
     });
@@ -96,7 +168,7 @@ const AdminProductForm = (props: Props) => {
   }, []);
 
   const createProduct = useCallback(async (product: any) => {
-    return await fetch(`${API_BASE_URL}product`, {
+    await fetch(`${API_BASE_URL}product`, {
       method: 'POST',
       body: JSON.stringify(product),
       headers: {
@@ -115,7 +187,7 @@ const AdminProductForm = (props: Props) => {
 
       await uploadImages();
 
-      if (form.values.price == 0 || form.values.salePrice == 0) {
+      if (form.values.price === 0 || form.values.salePrice === 0) {
         console.log('price is 0, are you crazy?');
         return;
       }
@@ -153,7 +225,7 @@ const AdminProductForm = (props: Props) => {
               required
               {...form.getInputProps('name')}
             />
-            <Flex gap={16} mt={8} align={'flex-start'}>
+            <Flex gap={16} mt={8} align="flex-start">
               <NumberInput
                 disabled={loading}
                 label="Price"
@@ -320,72 +392,3 @@ const AdminProductForm = (props: Props) => {
 };
 
 export default AdminProductForm;
-
-const FormPaper: React.FC<{ children: React.ReactNode; title: string }> = ({ children, title }) => (
-  <Paper shadow="sm" withBorder>
-    <Box className={classes.paperTitle}>
-      <Text size="md" fw={500} p={'sm'}>
-        {title}
-      </Text>
-    </Box>
-    <Box p={'sm'}>{children}</Box>
-  </Paper>
-);
-
-const categories = ['Electronics', 'Clothing', 'Shoes', 'Accessories', 'Jewelry', 'Watches'];
-const CategoryCombobox = ({ loading }: { loading: boolean }) => {
-  const combobox = useCombobox();
-  const [value, setValue] = useState('');
-
-  const shouldFilterOptions = !categories.some((item) => item === value);
-  const filteredOptions = shouldFilterOptions
-    ? categories.filter((item) => item.toLowerCase().includes(value.toLowerCase().trim()))
-    : categories;
-
-  const options = useMemo(
-    () =>
-      filteredOptions.map((item) => (
-        <Combobox.Option value={item} key={item}>
-          {item}
-        </Combobox.Option>
-      )),
-    [filteredOptions]
-  );
-
-  return (
-    <Box className={classes.categoryComboboxWrapper}>
-      <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
-      <Combobox
-        disabled={loading}
-        onOptionSubmit={(optionValue) => {
-          setValue(optionValue);
-          combobox.closeDropdown();
-        }}
-        store={combobox}
-      >
-        <Combobox.Target>
-          <TextInput
-            required
-            label="Choose category"
-            placeholder="Choose category or type to search"
-            value={value}
-            onChange={(event) => {
-              setValue(event.currentTarget.value);
-              combobox.openDropdown();
-              combobox.updateSelectedOptionIndex();
-            }}
-            onClick={() => combobox.openDropdown()}
-            onFocus={() => combobox.openDropdown()}
-            onBlur={() => combobox.closeDropdown()}
-          />
-        </Combobox.Target>
-
-        <Combobox.Dropdown>
-          <Combobox.Options>
-            {options.length === 0 ? <Combobox.Empty>Nothing found</Combobox.Empty> : options}
-          </Combobox.Options>
-        </Combobox.Dropdown>
-      </Combobox>
-    </Box>
-  );
-};

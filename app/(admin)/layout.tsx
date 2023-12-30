@@ -1,10 +1,7 @@
-import classes from './AdminLayout.module.css';
-import React from 'react';
-
 import { AdminSidebar } from '@/components/AdminSidebar/AdminSidebar';
 import { getSettings } from '@/lib/actionsSettings';
 
-type Props = {};
+import classes from './AdminLayout.module.css';
 
 const layout = async ({ children }: { children: any }) => {
   const settingsData = await getSettings();

@@ -16,10 +16,7 @@ import {
   Box,
   Modal,
   UnstyledButton,
-  Input,
   TextInput,
-  TextInputProps,
-  useMantineTheme,
   rem,
 } from '@mantine/core';
 import {
@@ -102,10 +99,10 @@ export function Header({ settingsData }: Props) {
         <AuthenticationForm />
       </Modal>
       <Box className={classes.upperHeader} mt={2}>
-        <Container size="1600px" w={'90%'}>
-          <Flex justify={'flex-end'} align={'center'}>
+        <Container size="1600px" w="90%">
+          <Flex justify="flex-end" align="center">
             <Group gap={16} visibleFrom="sm">
-              <Link href={'/admin'}>
+              <Link href="/admin">
                 <Text size="sm">Admin</Text>
               </Link>
               <UnstyledButton onClick={open} variant="unstyled">
@@ -115,7 +112,7 @@ export function Header({ settingsData }: Props) {
           </Flex>
         </Container>
       </Box>
-      <Container size="1600px" w={'90%'}>
+      <Container size="1600px" w="90%">
         <Flex className={classes.inner}>
           <Link href="/">
             <Text
@@ -135,7 +132,7 @@ export function Header({ settingsData }: Props) {
             rightSectionWidth={42}
             leftSection={<IconSearch style={{ width: rem(18), height: rem(18) }} stroke={1.5} />}
             rightSection={
-              <ActionIcon size={32} radius="xl" color={'primary'} variant="filled">
+              <ActionIcon size={32} radius="xl" color="primary" variant="filled">
                 <IconArrowRight style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
               </ActionIcon>
             }

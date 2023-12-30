@@ -26,15 +26,9 @@ export function LinksGroup({
 }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
-  const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
-      component="a"
-      className={classes.link}
-      href={link.link}
-      key={link.label}
-      // onClick={(event) => event.preventDefault()}
-    >
-      {link.label}
+  const items = (hasLinks ? links : []).map((singleLink) => (
+    <Text<'a'> component="a" className={classes.link} href={singleLink.link} key={singleLink.label}>
+      {singleLink.label}
     </Text>
   ));
 
@@ -42,7 +36,7 @@ export function LinksGroup({
     <>
       <UnstyledButton
         component={link ? 'a' : 'button'}
-        href={link ? link : undefined}
+        href={link}
         onClick={() => setOpened((o) => !o)}
         className={classes.control + (isActive ? ` ${classes.controlActive}` : '')}
       >

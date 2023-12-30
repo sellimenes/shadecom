@@ -1,9 +1,8 @@
-import cx from 'clsx';
 import { useState } from 'react';
-import { Table, ScrollArea, Text, Button, Flex, Group } from '@mantine/core';
-import classes from './AdminBestSellersTable.module.css';
+import cx from 'clsx';
+import { Table, ScrollArea, Text, Button, Group } from '@mantine/core';
 
-type Props = {};
+import classes from './AdminBestSellersTable.module.css';
 
 const data = [
   {
@@ -58,8 +57,8 @@ export function AdminBestSellersTable() {
       onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
       className={classes.tableWrapper}
     >
-      <Group p={6} justify={'space-between'} align={'center'}>
-        <Text c={'primary'} fw={600} fs={'lg'}>
+      <Group p={6} justify="space-between" align="center">
+        <Text c="primary" fw={600} fs="lg">
           Best Selling Items
         </Text>
         <Group gap={2}>
@@ -95,7 +94,7 @@ export function AdminBestSellersTable() {
       <Table>
         <Table.Thead className={cx(classes.header, { [classes.scrolled]: scrolled })}>
           <Table.Tr>
-            <Table.Th maw={'10px'}>Sold</Table.Th>
+            <Table.Th maw="10px">Sold</Table.Th>
             <Table.Th>Name</Table.Th>
             <Table.Th>Price</Table.Th>
           </Table.Tr>
@@ -103,7 +102,7 @@ export function AdminBestSellersTable() {
         <Table.Tbody>
           {data.map((row) => (
             <Table.Tr key={row.name}>
-              <Table.Td maw={'10px'}>{row.sold}</Table.Td>
+              <Table.Td maw="10px">{row.sold}</Table.Td>
               <Table.Td>{row.name}</Table.Td>
               <Table.Td>{row.price}</Table.Td>
             </Table.Tr>

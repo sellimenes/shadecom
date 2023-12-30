@@ -1,11 +1,8 @@
 import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import React from 'react';
 import AdminSiteSettingsForms from '@/components/AdminSiteSettingsForms/AdminSiteSettingsForms';
 import { getSettings } from '@/lib/actionsSettings';
 
-type Props = {};
-
-const GeneralSettingsPage = async (props: Props) => {
+const GeneralSettingsPage = async () => {
   const settings = await getSettings();
   return (
     <div>

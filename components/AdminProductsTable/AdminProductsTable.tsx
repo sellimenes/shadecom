@@ -14,9 +14,9 @@ import {
   Badge,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import classes from './AdminProductsTable.module.css';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
-import Link from 'next/link';
+
+import classes from './AdminProductsTable.module.css';
 
 const data = [
   {

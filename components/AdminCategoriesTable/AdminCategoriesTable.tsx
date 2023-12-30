@@ -7,7 +7,6 @@ import {
   Checkbox,
   ScrollArea,
   Group,
-  Avatar,
   Text,
   rem,
   ActionIcon,
@@ -18,9 +17,10 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { modals } from '@mantine/modals';
-import classes from './AdminCategoriesTable.module.css';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
+
+import classes from './AdminCategoriesTable.module.css';
 
 type category = {
   ID: string;
@@ -45,29 +45,24 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category`);
     const data = await res.json();
     setCategories(data.categories);
-    console.log(data.categories);
     setLoading(false);
   };
 
   const deleteCategory = async (ID: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category/${ID}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category/${ID}`, {
       method: 'DELETE',
     });
     await getCategories();
-
-    return await res.json();
   };
 
   const updateCategory = async (ID: string, Name: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category/${ID}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category/${ID}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Name }),
     });
     closeEdit();
     await getCategories();
-
-    return await res.json();
   };
 
   const createCategory = async (Name: string) => {
@@ -87,10 +82,7 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
           title: 'Error',
           message: 'Same category already exists.',
         });
-        return;
       }
-
-      return await res.json();
     } catch (error) {
       console.log('There has been a problem with your fetch operation:', error);
     }

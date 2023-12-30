@@ -15,10 +15,12 @@ import {
   IconCategory2,
   IconPhoto,
 } from '@tabler/icons-react';
-import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
-import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
+import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
+
 import classes from './AdminSidebar.module.css';
 
 type Props = {

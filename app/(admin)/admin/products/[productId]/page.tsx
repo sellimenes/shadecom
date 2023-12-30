@@ -1,9 +1,3 @@
-import React from 'react';
-
-type Props = {};
-
-const ProductEditPage = (props: Props) => {
-  return <div>ProductEditPage</div>;
-};
+const ProductEditPage = () => <div>ProductEditPage</div>;
 
 export default ProductEditPage;
