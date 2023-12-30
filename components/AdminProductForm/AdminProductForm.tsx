@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
@@ -32,6 +32,7 @@ import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 import '@mantine/dropzone/styles.css';
 import classes from './AdminProductForm.module.css';
+import { getCategories } from '@/lib/actionsCategories';
 
 const schema = z.object({
   name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
@@ -70,21 +71,44 @@ const FormPaper: React.FC<{ children: React.ReactNode; title: string }> = ({ chi
   </Paper>
 );
 
-const categories = ['Electronics', 'Clothing', 'Shoes', 'Accessories', 'Jewelry', 'Watches'];
-const CategoryCombobox = ({ loading }: { loading: boolean }) => {
+interface Category {
+  Name: string;
+  ID: number;
+}
+const CategoryCombobox = ({
+  loading,
+  onSelect,
+}: {
+  loading: boolean;
+  onSelect: (ID: number) => void;
+}) => {
+  const [categories, setCategories] = useState<Category[]>([]);
   const combobox = useCombobox();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<any>('');
 
-  const shouldFilterOptions = !categories.some((item) => item === value);
-  const filteredOptions = shouldFilterOptions
-    ? categories.filter((item) => item.toLowerCase().includes(value.toLowerCase().trim()))
+  const handleCategories = useCallback(async () => {
+    const categories = await getCategories();
+    setCategories(categories);
+  }, []);
+
+  useEffect(() => {
+    handleCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
+
+  const shouldFilterOptions = !categories.some((item) => item.Name === value);
+  const filteredOptions: any = shouldFilterOptions
+    ? categories.filter((item) => item.Name.toLowerCase().includes(value.toLowerCase().trim()))
     : categories;
 
   const options = useMemo(
     () =>
-      filteredOptions.map((item) => (
-        <Combobox.Option value={item} key={item}>
-          {item}
+      filteredOptions.map((item: any) => (
+        <Combobox.Option value={item} key={item.ID}>
+          {item.Name}
         </Combobox.Option>
       )),
     [filteredOptions]
@@ -95,8 +119,9 @@ const CategoryCombobox = ({ loading }: { loading: boolean }) => {
       <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
       <Combobox
         disabled={loading}
-        onOptionSubmit={(optionValue) => {
-          setValue(optionValue);
+        onOptionSubmit={(optionValue: any) => {
+          setValue(optionValue.Name);
+          onSelect(optionValue.ID);
           combobox.closeDropdown();
         }}
         store={combobox}
@@ -108,7 +133,7 @@ const CategoryCombobox = ({ loading }: { loading: boolean }) => {
             placeholder="Choose category or type to search"
             value={value}
             onChange={(event) => {
-              setValue(event.currentTarget.value);
+              setValue(event.target.value);
               combobox.openDropdown();
               combobox.updateSelectedOptionIndex();
             }}
@@ -133,6 +158,7 @@ const AdminProductForm = (props: Props) => {
 
   const [images, setImages] = useState<FileWithPath[]>([]);
   const [imagesURLList, setImagesURLList] = useState<string[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   const form = useForm({
     initialValues: {
@@ -192,18 +218,19 @@ const AdminProductForm = (props: Props) => {
         return;
       }
 
-      const { name, description, price, stock } = form.values;
+      const { name, description, price, stock, published, salePrice, saleDiscount } = form.values;
       const product = {
         Name: name,
         Description: description,
         Price: price,
         Stock: stock,
         Images: imagesURLList,
-        CategoryID: 8,
-        IsActive: true,
-        IsSale: false,
+        CategoryID: selectedCategoryId,
+        // TODO: Isactive true always...
+        IsActive: published === 'Published' ? true : false,
+        IsSale: salePrice && saleDiscount,
         IsFeatured: false,
-        SaleProcent: 0,
+        SaleProcent: saleDiscount,
       };
       await createProduct(product);
     } catch (error) {
@@ -212,6 +239,10 @@ const AdminProductForm = (props: Props) => {
       setLoading(false);
     }
   }, [form, images, uploadImages, createProduct]);
+
+  useEffect(() => {
+    console.log(form.values);
+  }, [form.values]);
 
   return (
     <Grid>
@@ -348,7 +379,10 @@ const AdminProductForm = (props: Props) => {
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Stack>
           <FormPaper title="Category">
-            <CategoryCombobox loading={loading} />
+            <CategoryCombobox
+              loading={loading}
+              onSelect={(selectedCategory: number) => setSelectedCategoryId(selectedCategory)}
+            />
           </FormPaper>
           <FormPaper title="Status">
             <Select
