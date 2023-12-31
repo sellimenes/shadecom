@@ -24,15 +24,18 @@ import {
   Group,
   rem,
   CloseButton,
+  Tooltip,
+  Modal,
 } from '@mantine/core';
-import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
+import { useDisclosure } from '@mantine/hooks';
+import { IconUpload, IconPhoto, IconX, IconInfoCircle } from '@tabler/icons-react';
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
 
 import { RichTextEditorComp } from '@/components/RichTextEditor/RichTextEditor';
 
 import '@mantine/dropzone/styles.css';
 import classes from './AdminProductForm.module.css';
-import { getCategories } from '@/lib/actionsCategories';
+import { createCategory, getCategories } from '@/lib/actionsCategories';
 
 const schema = z.object({
   name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
@@ -82,6 +85,7 @@ const CategoryCombobox = ({
   loading: boolean;
   onSelect: (ID: number) => void;
 }) => {
+  const [opened, { open, close }] = useDisclosure(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const combobox = useCombobox();
   const [value, setValue] = useState<any>('');
@@ -116,7 +120,29 @@ const CategoryCombobox = ({
 
   return (
     <Box className={classes.categoryComboboxWrapper}>
-      <UnstyledButton className={classes.addCategoryBtn}>Add New</UnstyledButton>
+      <Modal opened={opened} onClose={close} title="Create New Category">
+        <Stack gap={16} p={16}>
+          <TextInput
+            required
+            label="Category Name"
+            placeholder="Enter category name"
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+          />
+          <Button
+            loading={loading}
+            onClick={() => {
+              createCategory(value);
+              close();
+            }}
+          >
+            Create
+          </Button>
+        </Stack>
+      </Modal>
+      <UnstyledButton className={classes.addCategoryBtn} onClick={open}>
+        Add New
+      </UnstyledButton>
       <Combobox
         disabled={loading}
         onOptionSubmit={(optionValue: any) => {
@@ -256,36 +282,49 @@ const AdminProductForm = (props: Props) => {
               required
               {...form.getInputProps('name')}
             />
-            <Flex gap={16} mt={8} align="flex-start">
+            <Flex gap={16} mt={8} align="flex-stretch" wrap={{ base: 'wrap', md: 'nowrap' }}>
               <NumberInput
                 disabled={loading}
                 label="Price"
-                description="Product price"
+                // description="Product price"
                 placeholder="123"
                 min={0}
                 required
                 {...form.getInputProps('price')}
               />
-              <NumberInput
-                disabled={loading}
-                label="Sale Price"
-                description="Sale price, leave empty if product is not on sale"
-                placeholder="49.99"
-                min={0}
-                {...form.getInputProps('salePrice')}
-              />
-              <NumberInput
-                disabled={loading}
-                label="Discount"
-                description="Discount in %, leave empty if product is not on sale"
-                placeholder="25%"
-                min={0}
-                {...form.getInputProps('saleDiscount')}
-              />
+              <Box className={classes.inputWrapper}>
+                <NumberInput
+                  disabled={loading}
+                  label="Sale Price"
+                  placeholder="49.99"
+                  min={0}
+                  {...form.getInputProps('salePrice')}
+                />
+                <Tooltip
+                  label="Sale price, leave empty if product is not on sale"
+                  className={classes.tooltip}
+                >
+                  <IconInfoCircle color="var(--mantine-color-gray-6)" size={16} />
+                </Tooltip>
+              </Box>
+              <Box className={classes.inputWrapper}>
+                <NumberInput
+                  disabled={loading}
+                  label="Discount"
+                  placeholder="25%"
+                  min={0}
+                  {...form.getInputProps('saleDiscount')}
+                />
+                <Tooltip
+                  label="Discount in %, leave empty if product is not on sale"
+                  className={classes.tooltip}
+                >
+                  <IconInfoCircle color="var(--mantine-color-gray-6)" size={16} />
+                </Tooltip>
+              </Box>
               <NumberInput
                 disabled={loading}
                 label="Stock"
-                description="Product stock"
                 placeholder="0"
                 min={0}
                 required
@@ -319,7 +358,11 @@ const AdminProductForm = (props: Props) => {
                 </Dropzone.Accept>
                 <Dropzone.Reject>
                   <IconX
-                    style={{ width: rem(52), height: rem(52), color: 'var(--mantine-color-red-6)' }}
+                    style={{
+                      width: rem(52),
+                      height: rem(52),
+                      color: 'var(--mantine-color-red-6)',
+                    }}
                     stroke={1.5}
                   />
                 </Dropzone.Reject>

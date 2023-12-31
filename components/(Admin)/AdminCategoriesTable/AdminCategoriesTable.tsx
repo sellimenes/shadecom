@@ -21,6 +21,7 @@ import { IconPencil, IconTrash } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
 import classes from './AdminCategoriesTable.module.css';
+import { createCategory } from '@/lib/actionsCategories';
 
 type category = {
   ID: string;
@@ -65,27 +66,10 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
     await getCategories();
   };
 
-  const createCategory = async (Name: string) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}category`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Name }),
-      });
-
-      closeCreate();
-      await getCategories();
-
-      if (res.status === 400) {
-        notifications.show({
-          color: 'red',
-          title: 'Error',
-          message: 'Same category already exists.',
-        });
-      }
-    } catch (error) {
-      console.log('There has been a problem with your fetch operation:', error);
-    }
+  const handleCreateCategory = async (Name: string) => {
+    await createCategory(Name);
+    closeCreate();
+    await getCategories();
   };
 
   useEffect(() => {
@@ -194,7 +178,7 @@ export default function AdminCategoriesTable({ isCreateOpen, closeCreate }: Prop
           variant="light"
           color="primary"
           mt={8}
-          onClick={() => createCategory(editingCategory.Name)}
+          onClick={() => handleCreateCategory(editingCategory.Name)}
         >
           Create
         </Button>
