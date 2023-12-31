@@ -2,8 +2,8 @@
 
 import { useDisclosure } from '@mantine/hooks';
 
-import AdminCategoriesTable from '@/components/AdminCategoriesTable/AdminCategoriesTable';
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
+import AdminCategoriesTable from '@/components/(Admin)/AdminCategoriesTable/AdminCategoriesTable';
+import AdminPageTitle from '@/components/(Admin)/AdminPageTitle/AdminPageTitle';
 
 const CategoriesPage = () => {
   const [isCreateOpen, { open: openCreate, close: closeCreate }] = useDisclosure(false);

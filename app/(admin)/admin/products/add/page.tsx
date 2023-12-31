@@ -1,5 +1,5 @@
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import AdminProductForm from '@/components/AdminProductForm/AdminProductForm';
+import AdminPageTitle from '@/components/(Admin)/AdminPageTitle/AdminPageTitle';
+import AdminProductForm from '@/components/(Admin)/AdminProductForm/AdminProductForm';
 
 const AddNewProductPage = () => (
   <div>

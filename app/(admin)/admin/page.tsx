@@ -2,10 +2,10 @@
 
 import { Grid } from '@mantine/core';
 
-import AdminStats from '@/components/AdminStats/AdminStats';
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import AdminTodo from '@/components/AdminTodo/AdminTodo';
-import { AdminBestSellersTable } from '@/components/AdminBestSellersTable/AdminBestSellersTable';
+import AdminStats from '@/components/(Admin)/AdminStats/AdminStats';
+import AdminPageTitle from '@/components/(Admin)/AdminPageTitle/AdminPageTitle';
+import AdminTodo from '@/components/(Admin)/AdminTodo/AdminTodo';
+import { AdminBestSellersTable } from '@/components/(Admin)/AdminBestSellersTable/AdminBestSellersTable';
 
 // TODO: Drag and drop layout need to handle.
 

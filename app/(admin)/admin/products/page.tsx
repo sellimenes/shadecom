@@ -1,5 +1,5 @@
-import AdminProductsTable from '@/components/AdminProductsTable/AdminProductsTable';
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
+import AdminProductsTable from '@/components/(Admin)/AdminProductsTable/AdminProductsTable';
+import AdminPageTitle from '@/components/(Admin)/AdminPageTitle/AdminPageTitle';
 
 import classes from './ProductsPage.module.css';
 

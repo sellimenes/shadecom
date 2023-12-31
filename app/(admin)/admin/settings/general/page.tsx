@@ -1,5 +1,5 @@
-import AdminPageTitle from '@/components/AdminPageTitle/AdminPageTitle';
-import AdminSiteSettingsForms from '@/components/AdminSiteSettingsForms/AdminSiteSettingsForms';
+import AdminPageTitle from '@/components/(Admin)/AdminPageTitle/AdminPageTitle';
+import AdminSiteSettingsForms from '@/components/(Admin)/AdminSiteSettingsForms/AdminSiteSettingsForms';
 import { getSettings } from '@/lib/actionsSettings';
 
 const GeneralSettingsPage = async () => {

@@ -1,4 +1,4 @@
-import { AdminSidebar } from '@/components/AdminSidebar/AdminSidebar';
+import { AdminSidebar } from '@/components/(Admin)/AdminSidebar/AdminSidebar';
 import { getSettings } from '@/lib/actionsSettings';
 
 import classes from './AdminLayout.module.css';

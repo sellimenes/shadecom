@@ -18,8 +18,8 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { AdminUserButton } from '@/components/AdminUserButton/AdminUserButton';
-import { LinksGroup } from '@/components/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
+import { AdminUserButton } from '@/components/(Admin)/AdminUserButton/AdminUserButton';
+import { LinksGroup } from '@/components/(Admin)/AdminNavbarLinksGroup/AdminNavbarLinksGroup';
 
 import classes from './AdminSidebar.module.css';
 
