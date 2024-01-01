@@ -19,6 +19,10 @@
   position: relative;
 }
 
+.imageWrapper.active {
+  border: 2px solid var(--mantine-color-primary-5);
+}
+
 .deleteImgBtn {
   position: absolute;
   right: 0;

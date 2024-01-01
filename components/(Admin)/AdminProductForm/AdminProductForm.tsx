@@ -40,8 +40,8 @@ import { createCategory, getCategories } from '@/lib/actionsCategories';
 const schema = z.object({
   name: z.string().min(2, { message: 'Name should have at least 2 letters' }),
   price: z.number().min(0, { message: 'Price should be greater than 0' }),
-  salePrice: z.number().optional(),
-  saleDiscount: z.number().optional(),
+  salePrice: z.number().nullable().optional(),
+  saleDiscount: z.number().nullable().optional(),
   stock: z.number().min(0, { message: 'Stock should be greater than 0' }),
   category: z.string().min(2, { message: 'Category should have at least 2 letters' }),
   description: z.string().min(2, { message: 'Description should have at least 2 letters' }),
@@ -195,6 +195,7 @@ const AdminProductForm = (props: Props) => {
 
   const [images, setImages] = useState<FileWithPath[]>([]);
   const [imagesURLList, setImagesURLList] = useState<string[]>([]);
+  const [coverImageURL, setCoverImageURL] = useState<string>('');
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   const form = useForm({
@@ -207,6 +208,7 @@ const AdminProductForm = (props: Props) => {
       category: '',
       description: '',
       images: [],
+      coverImage: '',
       published: 'Draft',
       // metaTitle: '',
       // metaDescription: '',
@@ -226,7 +228,8 @@ const AdminProductForm = (props: Props) => {
     });
   }, [images]);
 
-  const deleteImageFromState = useCallback((image: FileWithPath) => {
+  const deleteImageFromState = useCallback((event: React.MouseEvent, image: FileWithPath) => {
+    event.stopPropagation();
     setImages(images.filter((img) => img.path !== image.path));
   }, []);
 
@@ -262,6 +265,7 @@ const AdminProductForm = (props: Props) => {
         Price: price,
         Stock: stock,
         Images: imagesURLList,
+        CoverImage: coverImageURL,
         CategoryID: selectedCategoryId,
         // TODO: Isactive true always...
         IsActive: published === 'Published' ? true : false,
@@ -406,11 +410,14 @@ const AdminProductForm = (props: Props) => {
                     shadow="sm"
                     style={{ width: rem(120), height: rem(120) }}
                     withBorder
-                    className={classes.imageWrapper}
+                    className={`${classes.imageWrapper} ${
+                      coverImageURL === imgS3BaseURL + image.path && classes.active
+                    }`}
+                    onClick={() => setCoverImageURL(imgS3BaseURL + image.path)}
                   >
                     <CloseButton
                       className={classes.deleteImgBtn}
-                      onClick={() => deleteImageFromState(image)}
+                      onClick={(e) => deleteImageFromState(e, image)}
                     />
                     <img
                       src={URL.createObjectURL(image)}
