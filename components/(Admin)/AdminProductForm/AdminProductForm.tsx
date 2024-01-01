@@ -86,9 +86,25 @@ const CategoryCombobox = ({
   onSelect: (ID: number) => void;
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [inlineLoading, setInlineLoading] = useState<boolean>(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const combobox = useCombobox();
   const [value, setValue] = useState<any>('');
+  const [modalValue, setModalValue] = useState<any>('');
+
+  const handleModalCreateCategory = async () => {
+    try {
+      setInlineLoading(true);
+      await createCategory(modalValue);
+      await handleCategories();
+      close();
+      setModalValue('');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setInlineLoading(false);
+    }
+  };
 
   const handleCategories = useCallback(async () => {
     const categories = await getCategories();
@@ -123,19 +139,14 @@ const CategoryCombobox = ({
       <Modal opened={opened} onClose={close} title="Create New Category">
         <Stack gap={16} p={16}>
           <TextInput
+            disabled={inlineLoading}
             required
             label="Category Name"
             placeholder="Enter category name"
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
+            value={modalValue}
+            onChange={(event) => setModalValue(event.target.value)}
           />
-          <Button
-            loading={loading}
-            onClick={() => {
-              createCategory(value);
-              close();
-            }}
-          >
+          <Button loading={inlineLoading} onClick={handleModalCreateCategory}>
             Create
           </Button>
         </Stack>
