@@ -7,3 +7,7 @@
 .viewAll {
   text-decoration: none;
 }
+
+.defaultCardsWrapper {
+  flex: 1;
+}

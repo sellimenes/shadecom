@@ -9,3 +9,12 @@ export const createProduct = async (product: any) => {
     },
   });
 };
+
+export const getBestSellerProducts = async () => {
+  const response = await fetch(`${API_BASE_URL}products?limit=6`, {
+    // TODO: Change cache when Nextjs fixes revalidateTag
+    cache: 'force-cache',
+  });
+  const data = await response.json();
+  return data.products;
+};

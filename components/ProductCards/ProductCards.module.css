@@ -1,0 +1,32 @@
+.defaultCardWrapper {
+  width: 100%;
+  /* height: 300px; */
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.defaultCardImageWrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 100%;
+}
+
+.defaultCardInfoWrapper {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.defaultCardTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.defaultCardPrice {
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 0.5rem;
+}

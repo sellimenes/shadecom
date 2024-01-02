@@ -12,4 +12,14 @@ export default withBundleAnalyzer({
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'shadecom.s3.eu-central-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 });

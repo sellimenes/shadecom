@@ -44,7 +44,6 @@ type MenuCategories = {
 export function Header({ settingsData, categories }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-  console.log(categories);
 
   const links = [
     { label: 'Categories', links: categories },

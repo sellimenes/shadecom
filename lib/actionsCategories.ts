@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const getCategories = async () => {
   const res = await fetch(`${API_BASE_URL}category`, {
     // TODO: Will be cached when revalidateTag updated by Vercel.
-    cache: 'no-cache',
+    // cache: 'no-cache',
   });
   const data = await res.json();
   return data.categories;
