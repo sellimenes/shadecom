@@ -33,22 +33,31 @@ import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 
 type Props = {
   settingsData?: any;
+  categories?: any;
 };
 
-const links = [
-  { link: '#1', label: 'Categories', links: [{ link: '/category/1', label: 'Category 1' }] },
-  { link: '/account', label: 'Account' },
-  { link: '/favorite', label: 'Favorites' },
-  { link: '/basket', label: 'My Basket' },
-];
+type MenuCategories = {
+  Slug: string;
+  Name: string;
+};
 
-export function Header({ settingsData }: Props) {
+export function Header({ settingsData, categories }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+  console.log(categories);
+
+  const links = [
+    { label: 'Categories', links: categories },
+    { link: '/account', label: 'Account' },
+    { link: '/favorite', label: 'Favorites' },
+    { link: '/basket', label: 'My Basket' },
+  ];
 
   const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+    const menuItems = link.links?.map((item: MenuCategories) => (
+      <Menu.Item key={item.Slug}>
+        <Link href={item.Slug}>{item.Name}</Link>
+      </Menu.Item>
     ));
 
     if (menuItems) {
