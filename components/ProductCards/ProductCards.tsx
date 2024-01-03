@@ -15,6 +15,7 @@ import {
 import { IconHeart } from '@tabler/icons-react';
 
 import classes from './ProductCards.module.css';
+import Link from 'next/link';
 
 type Props = {
   product: any;
@@ -23,14 +24,18 @@ type Props = {
 export const ProductCardDefault = ({ product }: Props) => {
   return (
     <Box className={classes.defaultCardWrapper}>
-      <Box className={classes.defaultCardImageWrapper}>
-        <Image src={product.CoverImage} alt={product.name} fill objectFit="contain" />
-      </Box>
+      <Link href={`/${product.Category.Slug}/${product.Slug}`}>
+        <Box className={classes.defaultCardImageWrapper}>
+          <Image src={product.CoverImage} alt={product.name} fill />
+        </Box>
+      </Link>
       <Box px={8} pb={8}>
         <Stack mt={10} mb={5} gap={1} align="center">
-          <Text className={classes.defaultCardTitle} lineClamp={1}>
-            {product.Name}
-          </Text>
+          <Link href={`/${product.Category.Slug}/${product.Slug}`}>
+            <Text className={classes.defaultCardTitle} lineClamp={1}>
+              {product.Name}
+            </Text>
+          </Link>
           <Rating value={4.5} fractions={2} readOnly />
           <NumberFormatter
             prefix="$ "

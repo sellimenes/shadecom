@@ -18,3 +18,9 @@ export const getBestSellerProducts = async () => {
   const data = await response.json();
   return data.products;
 };
+
+export const getSingleProduct = async (slug: string) => {
+  const response = await fetch(`${API_BASE_URL}product/${slug}`);
+  const data = await response.json();
+  return data.product;
+};

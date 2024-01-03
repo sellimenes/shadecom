@@ -18,6 +18,7 @@ import {
   UnstyledButton,
   TextInput,
   rem,
+  Indicator,
 } from '@mantine/core';
 import {
   IconChevronDown,
@@ -25,6 +26,9 @@ import {
   IconSun,
   IconSearch,
   IconArrowRight,
+  IconShoppingBag,
+  IconUser,
+  IconUserFilled,
 } from '@tabler/icons-react';
 
 import classes from './Header.module.css';
@@ -45,12 +49,7 @@ export function Header({ settingsData, categories }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
-  const links = [
-    { label: 'Categories', links: categories },
-    { link: '/account', label: 'Account' },
-    { link: '/favorite', label: 'Favorites' },
-    { link: '/basket', label: 'My Basket' },
-  ];
+  const links = [{ label: 'Categories', links: categories }];
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item: MenuCategories) => (
@@ -145,8 +144,18 @@ export function Header({ settingsData, categories }: Props) {
               </ActionIcon>
             }
           />
-          <Group gap={5} visibleFrom="sm">
-            {items}
+          <Group gap={24} visibleFrom="sm">
+            <Group gap={8}>
+              {items}
+              <ActionIcon variant="outline" color="primary">
+                <IconUser style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </ActionIcon>
+              <Indicator variant="dot" color="primary" label="5" size={16}>
+                <ActionIcon variant="outline" color="primary">
+                  <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+              </Indicator>
+            </Group>
             {colorScheme === 'light' ? (
               <ActionIcon
                 color="primary"
