@@ -58,8 +58,6 @@ export function Header({ settingsData, categories }: Props) {
       </Menu.Item>
     ));
 
-    console.log('test');
-
     if (menuItems) {
       return (
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
