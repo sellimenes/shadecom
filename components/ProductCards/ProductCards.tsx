@@ -16,15 +16,21 @@ import { IconHeart } from '@tabler/icons-react';
 
 import classes from './ProductCards.module.css';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 type Props = {
   product: any;
 };
 
+
+
 export const ProductCardDefault = ({ product }: Props) => {
+  useEffect(() => {
+    console.log(product);
+  }, []);
   return (
     <Box className={classes.defaultCardWrapper}>
-      <Link href={`/${product.Category.Slug}/${product.Slug}`}>
+      <Link href={`.${product.Category.Slug}/${product.Slug}`}>
         <Box className={classes.defaultCardImageWrapper}>
           <Image src={product.CoverImage} alt={product.name} fill />
         </Box>
