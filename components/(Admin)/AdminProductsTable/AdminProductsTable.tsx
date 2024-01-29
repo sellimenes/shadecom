@@ -36,7 +36,7 @@ export default function AdminProductsTable() {
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     );
   const toggleAll = () =>
-    setSelection((current) => (current.length === products.length ? [] : products.map((item) => item.id)));
+    setSelection((current) => (current.length === products.length ? [] : products.map((item: any) => item.id)));
 
   const openModal = () =>
     modals.openConfirmModal({
