@@ -1,7 +1,7 @@
 'use client';
 
 import cx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   Checkbox,
@@ -17,63 +17,26 @@ import { modals } from '@mantine/modals';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 
 import classes from './AdminProductsTable.module.css';
-
-const data = [
-  {
-    id: '1',
-    imageUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-    name: 'Shade Lamp',
-    category: 'Home Decor',
-    price: 59.99,
-    stock: 25,
-  },
-  {
-    id: '2',
-    imageUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png',
-    name: 'Shade T-Shirt',
-    category: 'Designer',
-    price: 99.99,
-    stock: 15,
-  },
-  {
-    id: '3',
-    imageUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-    name: 'Shade Hoodie',
-    category: 'Designer',
-    price: 129.99,
-    stock: 5,
-  },
-  {
-    id: '4',
-    imageUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-    name: 'Shade Book',
-    category: 'Book',
-    price: 3.99,
-    stock: 10,
-  },
-  {
-    id: '5',
-    imageUrl:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-    name: 'Shade Keyboard',
-    category: 'Electronics',
-    price: 199.99,
-    stock: 52,
-  },
-];
+import { getAllProducts } from '@/lib/actionsProduct';
 
 export default function AdminProductsTable() {
   const [selection, setSelection] = useState(['0']);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getAllProducts().then(setProducts);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(products)
+  // }, [products]);
+
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     );
   const toggleAll = () =>
-    setSelection((current) => (current.length === data.length ? [] : data.map((item) => item.id)));
+    setSelection((current) => (current.length === products.length ? [] : products.map((item) => item.id)));
 
   const openModal = () =>
     modals.openConfirmModal({
@@ -89,32 +52,33 @@ export default function AdminProductsTable() {
       onConfirm: () => console.log('Delete'),
     });
 
-  const rows = data.map((item) => {
-    const selected = selection.includes(item.id);
+  const rows = products.map((item: any) => {
+    const selected = selection.includes(item.ID);
     return (
-      <Table.Tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
+      <Table.Tr key={item.ID} className={cx({ [classes.rowSelected]: selected })}>
         <Table.Td>
           <Checkbox
             color="primary"
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
+            checked={selection.includes(item.ID)}
+            onChange={() => toggleRow(item.ID)}
           />
         </Table.Td>
         <Table.Td>
           <Group gap="sm">
-            <Avatar size={26} src={item.imageUrl} radius={26} />
+            <Avatar size={26} src={item.CoverImage} radius={26} />
             <Text size="sm" fw={500}>
-              {item.name}
+              {item.Name}
             </Text>
           </Group>
         </Table.Td>
         <Table.Td>
           <Badge color="primary" variant="light">
-            {item.category}
+            {item.Category.Name}
           </Badge>
         </Table.Td>
-        <Table.Td>{item.stock}</Table.Td>
-        <Table.Td>${item.price}</Table.Td>
+        <Table.Td>{item.Stock}</Table.Td>
+        <Table.Td>${item.Price}</Table.Td>
+        <Table.Td>Active</Table.Td>
         <Table.Td>
           <Group gap={0} justify="flex-end">
             <ActionIcon variant="subtle" color="gray">
@@ -146,6 +110,7 @@ export default function AdminProductsTable() {
             <Table.Th>Category</Table.Th>
             <Table.Th>Stock</Table.Th>
             <Table.Th>Price</Table.Th>
+            <Table.Th>Status</Table.Th>
             <Table.Th align="right" />
           </Table.Tr>
         </Table.Thead>

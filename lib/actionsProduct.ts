@@ -24,3 +24,9 @@ export const getSingleProduct = async (slug: string) => {
   const data = await response.json();
   return data.product;
 };
+
+export const getAllProducts = async () => {
+  const response = await fetch(`${API_BASE_URL}products`);
+  const data = await response.json();
+  return data.products;
+};

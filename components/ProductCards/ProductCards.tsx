@@ -30,7 +30,7 @@ export const ProductCardDefault = ({ product }: Props) => {
   }, []);
   return (
     <Box className={classes.defaultCardWrapper}>
-      <Link href={`.${product.Category.Slug}/${product.Slug}`}>
+      <Link href={`${product.Category.Slug}/${product.Slug}`}>
         <Box className={classes.defaultCardImageWrapper}>
           <Image src={product.CoverImage} alt={product.name} fill />
         </Box>
