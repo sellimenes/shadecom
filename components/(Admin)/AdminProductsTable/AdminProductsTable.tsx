@@ -27,16 +27,16 @@ export default function AdminProductsTable() {
     getAllProducts().then(setProducts);
   }, []);
 
-  // useEffect(() => {
-  //   console.log(products)
-  // }, [products]);
+  useEffect(() => {
+    console.log(products)
+  }, [products]);
 
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     );
   const toggleAll = () =>
-    setSelection((current) => (current.length === products.length ? [] : products.map((item: any) => item.id)));
+    setSelection((current) => (current.length === products.length ? [] : products.map((item: any) => item.ID)));
 
   const openModal = () =>
     modals.openConfirmModal({
@@ -102,8 +102,8 @@ export default function AdminProductsTable() {
               <Checkbox
                 color="primary"
                 onChange={toggleAll}
-                checked={selection.length === data.length}
-                indeterminate={selection.length > 0 && selection.length !== data.length}
+                checked={selection.length === products.length}
+                indeterminate={selection.length > 0 && selection.length !== products.length}
               />
             </Table.Th>
             <Table.Th>Name</Table.Th>
