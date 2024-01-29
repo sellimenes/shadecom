@@ -57,13 +57,13 @@ export function Header({ settingsData, categories }: Props) {
         <Link href={item.Slug}>{item.Name}</Link>
       </Menu.Item>
     ));
-
+  
     if (menuItems) {
       return (
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
           <Menu.Target>
             <a
-              href={link.link}
+              href="#" // You can replace this with the appropriate link
               className={classes.link}
               // onClick={(event) => event.preventDefault()}
             >
@@ -77,11 +77,11 @@ export function Header({ settingsData, categories }: Props) {
         </Menu>
       );
     }
-
+  
     return (
       <a
         key={link.label}
-        href={link.link}
+        href="#" // You can replace this with the appropriate link
         className={classes.link}
         onClick={(event) => event.preventDefault()}
       >
