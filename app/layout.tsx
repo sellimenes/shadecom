@@ -9,7 +9,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Shadecommerce',
-  description: 'Shadecommerce | Selim Enes',
+  description: 'Shadecommerce | Selim Enes',
 };
 
 export default async function RootLayout({ children }: { children: any }) {

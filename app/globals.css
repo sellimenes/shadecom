@@ -2,3 +2,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+.mantine-Breadcrumbs-separator{
+  color: var(--mantine-color-primary-6)
+}

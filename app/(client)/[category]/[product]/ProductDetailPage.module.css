@@ -1,0 +1,15 @@
+.breadcrumbs{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.breadcrumbs a{
+    color: light-dark(var(--mantine-color-dark-7), var(--mantine-colorgray-0));
+    opacity: 80%;
+}
+
+.priceNumber{
+    font-size: 2rem;
+    font-weight: 500;
+    opacity: 80%;
+}
