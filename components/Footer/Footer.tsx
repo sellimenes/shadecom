@@ -75,7 +75,7 @@ export function Footer({ settingsData }: Props) {
       </Container>
       <Container size="1600px" w="90%" className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © 2023 shade ecom. All rights reserved.
+          © {new Date().getFullYear()} shade ecom. All rights reserved.
         </Text>
 
         <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
