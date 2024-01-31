@@ -1,8 +1,11 @@
 import { getSingleProduct } from '@/lib/actionsProduct';
-import { Container, Group, Stack, Text, Title, NumberFormatter, Breadcrumbs, Anchor, Flex, Rating, Divider, NumberInput } from '@mantine/core';
+import { Container, Group, Stack, Text, Title, NumberFormatter, Breadcrumbs, Anchor, Flex, Rating, Divider, NumberInput, Button } from '@mantine/core';
 import Image from 'next/image';
 import React from 'react';
 import classes from './ProductDetailPage.module.css';
+// import ProductDetailNumberInput from '@/components/ProductDetailNumberInput/ProductDetailNumberInput';
+import ProductDetailTabs from '@/components/ProductDetailTabs/ProductDetailTabs';
+import ProductDetailRelatedProducts from '@/components/ProductDetailRelatedProducts/ProductDetailRelatedProducts';
 
 type Props = {
   params: {
@@ -45,9 +48,14 @@ const ProductPage = async ({ params }: Props) => {
           {product.ShortDescription && <Text>{product.ShortDescription}</Text>}
           <NumberFormatter prefix="$ " value={product.Price} thousandSeparator className={classes.priceNumber} />
           <Divider my={'2rem'} />
-          <NumberInput max={product.Stock} min={1} />
+          {/* <ProductDetailNumberInput max={product.Stock} /> */}
+          <Button variant="filled" color="primary" maw={'max-content'}>
+            Add to cart
+          </Button>
         </Stack>
       </Group>
+      <ProductDetailTabs />
+      <ProductDetailRelatedProducts />
     </Container>
   );
 };
