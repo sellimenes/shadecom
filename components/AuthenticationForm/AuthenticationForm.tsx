@@ -28,9 +28,23 @@ export function AuthenticationForm(props: PaperProps) {
 
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      password: (val) => (val.length <= 4 ? 'Password should include at least 6 characters' : null),
     },
   });
+
+  const handleLogin = async() => {
+    const { email, password } = form.values;
+    // handle login
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+    }
 
   return (
     <Paper radius="md" p="xl" withBorder {...props}>
@@ -45,7 +59,7 @@ export function AuthenticationForm(props: PaperProps) {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(() => handleLogin())}>
         <Stack>
           {type === 'register' && (
             <TextInput
