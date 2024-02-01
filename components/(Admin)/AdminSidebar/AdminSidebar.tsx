@@ -51,7 +51,7 @@ const sidebarData = [
     icon: IconPhoto,
     link: '/admin/gallery',
   },
-  { label: 'Users', icon: IconUsers },
+  { label: 'Users', icon: IconUsers, link: '/admin/users' },
   { label: 'Analytics', icon: IconPresentationAnalytics },
   {
     label: 'Settings',

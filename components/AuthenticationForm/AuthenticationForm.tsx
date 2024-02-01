@@ -1,3 +1,5 @@
+'use client'
+
 import { useToggle, upperFirst } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import {
@@ -15,6 +17,7 @@ import {
 } from '@mantine/core';
 import { GoogleButton } from './GoogleButton';
 import { TwitterButton } from './TwitterButton';
+import { useEffect } from 'react';
 
 export function AuthenticationForm(props: PaperProps) {
   const [type, toggle] = useToggle(['login', 'register']);
@@ -32,19 +35,37 @@ export function AuthenticationForm(props: PaperProps) {
     },
   });
 
+  useEffect(() => {
+    console.log(form.values)
+  }, [form])
+
   const handleLogin = async() => {
     const { email, password } = form.values;
     // handle login
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ "Email": email, "Password": password }),
       });
       console.log(res)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleRegister = async() => {
+    const { email, password, name } = form.values;
+    // handle register
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register`, {
+        method: 'POST',
+        body: JSON.stringify({ "Email": email, "Password": password, "Name": name }),
+      });
+      console.log(res)
+    } catch (error) {
+      console.log(error)
     }
+  }
 
   return (
     <Paper radius="md" p="xl" withBorder {...props}>
@@ -59,7 +80,7 @@ export function AuthenticationForm(props: PaperProps) {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => handleLogin())}>
+      <form onSubmit={form.onSubmit(() => type === 'register' ? handleRegister() : handleLogin())}>
         <Stack>
           {type === 'register' && (
             <TextInput
