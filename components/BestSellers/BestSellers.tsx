@@ -8,7 +8,7 @@ import classes from './BestSellers.module.css';
 
 const BestSellers = async () => {
   const bestSellersProducts = await getBestSellerProducts();
-  console.log(bestSellersProducts);
+  // console.log(bestSellersProducts);
   return (
     <Container size="1600px" w="90%" mt="1rem">
       <Flex justify="space-between" align="center">

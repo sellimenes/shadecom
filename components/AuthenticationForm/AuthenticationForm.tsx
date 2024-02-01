@@ -17,9 +17,15 @@ import {
 } from '@mantine/core';
 import { GoogleButton } from './GoogleButton';
 import { TwitterButton } from './TwitterButton';
-import { useEffect } from 'react';
+import { handleLogin, handleRegister, getCurrentUser } from '@/lib/actionsAuth';
+import { useState } from 'react';
 
-export function AuthenticationForm(props: PaperProps) {
+type Props = PaperProps & {
+  close: () => void;
+}
+
+export function AuthenticationForm(props: Props) {
+  const [loading, setLoading] = useState(false);
   const [type, toggle] = useToggle(['login', 'register']);
   const form = useForm({
     initialValues: {
@@ -35,35 +41,21 @@ export function AuthenticationForm(props: PaperProps) {
     },
   });
 
-  useEffect(() => {
-    console.log(form.values)
-  }, [form])
-
-  const handleLogin = async() => {
-    const { email, password } = form.values;
-    // handle login
+  const handleOnSubmit = async() => {
+    const {email, name, password} = form.values
+    setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}login`, {
-        method: 'POST',
-        body: JSON.stringify({ "Email": email, "Password": password }),
-      });
-      console.log(res)
+      if(type === "register"){
+        await handleRegister(email, password, name)
+      } else {
+        const token = await handleLogin(email, password);
+        localStorage.setItem('token', token);
+      }
     } catch (error) {
       console.log(error)
-    }
-  }
-
-  const handleRegister = async() => {
-    const { email, password, name } = form.values;
-    // handle register
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}register`, {
-        method: 'POST',
-        body: JSON.stringify({ "Email": email, "Password": password, "Name": name }),
-      });
-      console.log(res)
-    } catch (error) {
-      console.log(error)
+    } finally{
+      props.close();
+      setLoading(false);
     }
   }
 
@@ -74,13 +66,12 @@ export function AuthenticationForm(props: PaperProps) {
       </Text>
 
       <Group grow mb="md" mt="md">
-        <GoogleButton radius="xl">Google</GoogleButton>
-        <TwitterButton radius="xl">Twitter</TwitterButton>
+        <GoogleButton radius="xl" onClick={() => getCurrentUser(localStorage.getItem('token') || '')}>Google</GoogleButton>        <TwitterButton radius="xl">Twitter</TwitterButton>
       </Group>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => type === 'register' ? handleRegister() : handleLogin())}>
+      <form onSubmit={form.onSubmit(handleOnSubmit)}>
         <Stack>
           {type === 'register' && (
             <TextInput
@@ -127,7 +118,7 @@ export function AuthenticationForm(props: PaperProps) {
               ? 'Already have an account? Login'
               : "Don't have an account? Register"}
           </Anchor>
-          <Button type="submit" radius="xl">
+          <Button type="submit" radius="xl" loading={loading}>
             {upperFirst(type)}
           </Button>
         </Group>

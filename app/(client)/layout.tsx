@@ -4,6 +4,7 @@ import { getSettings } from '@/lib/actionsSettings';
 
 import classes from './Layout.module.css';
 import { getCategories } from '@/lib/actionsCategories';
+import { getCurrentUser } from '@/lib/actionsAuth';
 
 const layout = async ({ children }: { children: any }) => {
   const settingsData = await getSettings();

@@ -34,6 +34,9 @@ import {
 import classes from './Header.module.css';
 
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
+import { useEffect } from 'react';
+import { fetchUser, useUser } from '@/lib/store/UserStore';
+import { getCurrentUser } from '@/lib/actionsAuth';
 
 type Props = {
   settingsData?: any;
@@ -45,9 +48,32 @@ type MenuCategories = {
   Name: string;
 };
 
+interface User {
+  Name: string;
+  // Add other properties as needed
+}
+
+interface UserData {
+  user: User;
+  // Add other properties as needed
+}
+
+
+
 export function Header({ settingsData, categories }: Props) {
+  const userData = useUser((state) => state.data) as UserData;
+  const setUser = useUser((state) => state.setUser);
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+
+  const fetchCurrentUser = async () => {
+    const currentUser = await getCurrentUser(localStorage.getItem('token') || "");
+    setUser(currentUser);
+  }
+
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
 
   const links = [{ label: 'Categories', links: categories }];
 
@@ -103,7 +129,7 @@ export function Header({ settingsData, categories }: Props) {
         }}
         transitionProps={{ transition: 'rotate-left', duration: 300, timingFunction: 'linear' }}
       >
-        <AuthenticationForm />
+        <AuthenticationForm close={close} />
       </Modal>
       <Box className={classes.upperHeader} mt={2}>
         <Container size="1600px" w="90%">
@@ -115,6 +141,7 @@ export function Header({ settingsData, categories }: Props) {
               <UnstyledButton onClick={open} variant="unstyled">
                 <Text size="sm">Auth</Text>
               </UnstyledButton>
+              <Text>{userData?.user?.Name}</Text>
             </Group>
           </Flex>
         </Container>

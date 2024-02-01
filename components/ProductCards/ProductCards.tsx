@@ -25,9 +25,9 @@ type Props = {
 
 
 export const ProductCardDefault = ({ product }: Props) => {
-  useEffect(() => {
-    console.log(product);
-  }, []);
+  // useEffect(() => {
+  //   console.log(product);
+  // }, []);
   return (
     <Box className={classes.defaultCardWrapper}>
       <Link href={`${product.Category.Slug}/${product.Slug}`}>
