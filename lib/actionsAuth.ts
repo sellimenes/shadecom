@@ -42,5 +42,6 @@ export const handleRegister = async(email: string, password: string, name: strin
         body: JSON.stringify({ email, password, name }),
     });
     const data = await res.json();
+    await handleLogin(email, password);
     return data;
 }
