@@ -25,7 +25,7 @@ const BestSellers = async () => {
       </Flex>
       <Flex w="100%" mt="sm" gap="md" wrap="wrap" align="stretch">
         {bestSellersProducts.map((product: any) => (
-          <Box key={product} className={classes.defaultCardsWrapper}>
+          <Box key={product.ID} className={classes.defaultCardsWrapper}>
             <ProductCardDefault product={product} />
           </Box>
         ))}

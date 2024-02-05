@@ -169,15 +169,19 @@ export function Header({ settingsData, categories, currentUser, basket }: Props)
                 <IconUser style={{ width: '70%', height: '70%' }} stroke={1.5} />
               </ActionIcon>
               {basket?.length > 0 ? (
-                <Indicator variant="dot" color="primary" label={count} size={16}>
-                <ActionIcon variant="outline" color="primary">
-                  <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
-              </Indicator>
+                <Link href="/basket">
+                  <Indicator variant="dot" color="primary" label={count} size={16}>
+                    <ActionIcon variant="outline" color="primary">
+                      <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                  </Indicator>
+                </Link>
               ) : (
-                <ActionIcon variant="outline" color="primary">
-                  <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
-                </ActionIcon>
+                <Link href="/basket">
+                  <ActionIcon variant="outline" color="primary">
+                    <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                  </ActionIcon>
+                </Link>
               )}
             </Group>
             {colorScheme === 'light' ? (

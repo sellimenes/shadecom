@@ -16,11 +16,8 @@ import { IconHeart } from '@tabler/icons-react';
 
 import classes from './ProductCards.module.css';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { addBasket } from '@/lib/actionsBasket';
-import { useBasketCount } from '@/lib/store/BasketCountStore';
-import { notifications } from '@mantine/notifications';
-import { set } from 'zod';
+import { useState } from 'react';
+import { handleAddBasket } from '@/lib/store/BasketCountStore';
 
 type Props = {
   product: any;
@@ -30,39 +27,18 @@ type Props = {
 
 export const ProductCardDefault = ({ product }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { count, setCount } = useBasketCount();
-  // useEffect(() => {
-  //   console.log(product);
-  // }, [product]);
 
   const handleAdBasket = async(id: string) => {
     setLoading(true);
-    const res = await addBasket(id);
+    handleAddBasket(id);
     setLoading(false);
-    if(res && !res.error) {
-      setCount(count + 1);
-      notifications.show({
-        title: 'Product added to basket',
-        message: 'You can view your basket in the top right corner.',
-        color: 'teal',
-        icon: null,
-      })
-    }
-
-    if(res.error && res.error === "Product already in basket") {
-      notifications.show({
-        title: 'Product already in basket',
-        message: 'You can change the quantity in the basket.',
-        color: 'red',
-        icon: null,
-      })
-    }
   }
+
   return (
     <Box className={classes.defaultCardWrapper}>
       <Link href={`/${product.Category.Slug}/${product.Slug}`}>
         <Box className={classes.defaultCardImageWrapper}>
-          <Image src={product.CoverImage} alt={product.name} fill />
+          <Image src={product.CoverImage} alt={product.name} fill sizes="(max-width: 472px) 100vw, (max-width: 600px) 50vw, 33vw" />
         </Box>
       </Link>
       <Box px={8} pb={8}>
