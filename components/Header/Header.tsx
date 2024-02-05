@@ -57,7 +57,7 @@ export function Header({ settingsData, categories, currentUser, basket }: Props)
   const links = [{ label: 'Categories', links: categories }];
 
   useEffect(() => {
-    setCount(basket.length);
+    setCount(basket?.length);
   }, [basket]);
 
   const items = links.map((link) => {
