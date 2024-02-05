@@ -3,6 +3,12 @@ a {
   color: inherit;
 }
 
+body{
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
 .mantine-Breadcrumbs-separator{
   color: var(--mantine-color-primary-6)
 }
