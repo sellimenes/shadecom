@@ -28,19 +28,17 @@ import {
   IconArrowRight,
   IconShoppingBag,
   IconUser,
-  IconUserFilled,
 } from '@tabler/icons-react';
 
 import classes from './Header.module.css';
 
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
-import { useEffect } from 'react';
-import { fetchUser, useUser } from '@/lib/store/UserStore';
-import { getCurrentUser } from '@/lib/actionsAuth';
+import { handleLogout } from '@/lib/actionsAuth';
 
 type Props = {
   settingsData?: any;
   categories?: any;
+  currentUser?: any;
 };
 
 type MenuCategories = {
@@ -48,32 +46,9 @@ type MenuCategories = {
   Name: string;
 };
 
-interface User {
-  Name: string;
-  // Add other properties as needed
-}
-
-interface UserData {
-  user: User;
-  // Add other properties as needed
-}
-
-
-
-export function Header({ settingsData, categories }: Props) {
-  const userData = useUser((state) => state.data) as UserData;
-  const setUser = useUser((state) => state.setUser);
+export function Header({ settingsData, categories, currentUser }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-
-  const fetchCurrentUser = async () => {
-    const currentUser = await getCurrentUser(localStorage.getItem('token') || "");
-    setUser(currentUser);
-  }
-
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
 
   const links = [{ label: 'Categories', links: categories }];
 
@@ -135,13 +110,21 @@ export function Header({ settingsData, categories }: Props) {
         <Container size="1600px" w="90%">
           <Flex justify="flex-end" align="center">
             <Group gap={16} visibleFrom="sm">
-              <Link href="/admin">
-                <Text size="sm">Admin</Text>
-              </Link>
-              <UnstyledButton onClick={open} variant="unstyled">
-                <Text size="sm">Auth</Text>
-              </UnstyledButton>
-              <Text>{userData?.user?.Name}</Text>
+              {currentUser?.user?.RoleID === 1 && (
+                <Link href="/admin">
+                  <Text size="sm">Admin</Text>
+                </Link>
+              )}
+              {!currentUser?.user?.Name && (
+                <UnstyledButton onClick={open} variant="unstyled">
+                  <Text size="sm">Auth</Text>
+                </UnstyledButton>
+              )}
+              {currentUser?.user?.Name && (
+                <UnstyledButton variant="unstyled" onClick={() => handleLogout()}>
+                  <Text size="sm">{currentUser?.user?.Name}</Text>
+                </UnstyledButton>
+              )}
             </Group>
           </Flex>
         </Container>

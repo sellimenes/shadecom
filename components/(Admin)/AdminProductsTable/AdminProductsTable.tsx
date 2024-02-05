@@ -27,10 +27,6 @@ export default function AdminProductsTable() {
     getAllProducts().then(setProducts);
   }, []);
 
-  useEffect(() => {
-    console.log(products)
-  }, [products]);
-
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
