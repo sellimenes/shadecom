@@ -35,6 +35,7 @@ import classes from './Header.module.css';
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 import { handleLogout } from '@/lib/actionsAuth';
 import { useEffect } from 'react';
+import { useBasketCount } from '@/lib/store/BasketCountStore';
 
 type Props = {
   settingsData?: any;
@@ -49,13 +50,14 @@ type MenuCategories = {
 };
 
 export function Header({ settingsData, categories, currentUser, basket }: Props) {
+  const {count, setCount} = useBasketCount();
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   const links = [{ label: 'Categories', links: categories }];
 
   useEffect(() => {
-    console.log(basket)
+    setCount(basket.length);
   }, [basket]);
 
   const items = links.map((link) => {
@@ -167,7 +169,7 @@ export function Header({ settingsData, categories, currentUser, basket }: Props)
                 <IconUser style={{ width: '70%', height: '70%' }} stroke={1.5} />
               </ActionIcon>
               {basket?.length > 0 ? (
-                <Indicator variant="dot" color="primary" label={basket.length} size={16}>
+                <Indicator variant="dot" color="primary" label={count} size={16}>
                 <ActionIcon variant="outline" color="primary">
                   <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>

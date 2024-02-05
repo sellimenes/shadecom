@@ -16,8 +16,11 @@ import { IconHeart } from '@tabler/icons-react';
 
 import classes from './ProductCards.module.css';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { addBasket } from '@/lib/actionsBasket';
+import { useBasketCount } from '@/lib/store/BasketCountStore';
+import { notifications } from '@mantine/notifications';
+import { set } from 'zod';
 
 type Props = {
   product: any;
@@ -26,9 +29,35 @@ type Props = {
 
 
 export const ProductCardDefault = ({ product }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const { count, setCount } = useBasketCount();
   // useEffect(() => {
   //   console.log(product);
-  // }, []);
+  // }, [product]);
+
+  const handleAdBasket = async(id: string) => {
+    setLoading(true);
+    const res = await addBasket(id);
+    setLoading(false);
+    if(res && !res.error) {
+      setCount(count + 1);
+      notifications.show({
+        title: 'Product added to basket',
+        message: 'You can view your basket in the top right corner.',
+        color: 'teal',
+        icon: null,
+      })
+    }
+
+    if(res.error && res.error === "Product already in basket") {
+      notifications.show({
+        title: 'Product already in basket',
+        message: 'You can change the quantity in the basket.',
+        color: 'red',
+        icon: null,
+      })
+    }
+  }
   return (
     <Box className={classes.defaultCardWrapper}>
       <Link href={`/${product.Category.Slug}/${product.Slug}`}>
@@ -52,10 +81,10 @@ export const ProductCardDefault = ({ product }: Props) => {
           />
         </Stack>
         <Flex align="center" gap={3}>
-          <Button variant="outline" color="primary" radius="sm" fullWidth onClick={() => addBasket(product.ID)}>
+          <Button disabled={loading} variant="outline" color="primary" radius="sm" fullWidth onClick={() => handleAdBasket(product.ID)}>
             Add to cart
           </Button>
-          <ActionIcon size={36} variant="default" aria-label="ActionIcon with size as a number">
+          <ActionIcon disabled={loading} size={36} variant="default" aria-label="ActionIcon with size as a number">
             <IconHeart style={{ width: rem(24), height: rem(24) }} />
           </ActionIcon>
         </Flex>

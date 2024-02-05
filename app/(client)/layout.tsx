@@ -11,10 +11,11 @@ const layout = async ({ children }: { children: any }) => {
   const settingsData = await getSettings();
   const categories = await getCategories();
   const basket = await getBasket();
-  const currentUser = cookies().get('session');
+  const userData = cookies().get('session');
+  const currentUser = JSON.parse(userData?.value || '{}');
   return (
     <>
-      <Header settingsData={settingsData} categories={categories} currentUser={JSON.parse(currentUser?.value || '{}')} basket={basket} />
+      <Header settingsData={settingsData} categories={categories} currentUser={currentUser} basket={basket} />
       <main className={classes.main}>
         <div className={classes.content}>{children}</div>
       </main>

@@ -15,7 +15,8 @@ export const getBasket = async () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token.value
-            }
+            },
+            cache: 'no-cache'
         });
         const data = await res.json();
         return data.basket;
@@ -31,15 +32,18 @@ export const addBasket = async (productId: string) => {
     }
 
     try {
-        await fetch(`${API_BASE_URL}basket`, {
+        const response = await fetch(`${API_BASE_URL}basket`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token.value
             },
-            body: JSON.stringify({ productId })
+            body: JSON.stringify({
+                "ProductID": productId,
+              }),
         });
-        await getBasket();
+        const basket = await response.json();
+        return basket;
     } catch (error) {
         console.log('There has been a problem with your fetch operation:', error);
     }

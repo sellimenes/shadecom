@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Notifications position="top-right" limit={5} />
+          <Notifications position="bottom-right" limit={5} />
           <ModalsProvider>{children}</ModalsProvider>
         </MantineProvider>
       </body>
