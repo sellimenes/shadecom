@@ -48,8 +48,7 @@ export function AuthenticationForm(props: Props) {
       if(type === "register"){
         await handleRegister(email, password, name)
       } else {
-        const token = await handleLogin(email, password);
-        localStorage.setItem('token', token);
+        await handleLogin(email, password);
       }
     } catch (error) {
       console.log(error)
