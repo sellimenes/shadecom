@@ -17,6 +17,7 @@ import { IconHeart } from '@tabler/icons-react';
 import classes from './ProductCards.module.css';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { addBasket } from '@/lib/actionsBasket';
 
 type Props = {
   product: any;
@@ -51,7 +52,7 @@ export const ProductCardDefault = ({ product }: Props) => {
           />
         </Stack>
         <Flex align="center" gap={3}>
-          <Button variant="outline" color="primary" radius="sm" fullWidth>
+          <Button variant="outline" color="primary" radius="sm" fullWidth onClick={() => addBasket(product.ID)}>
             Add to cart
           </Button>
           <ActionIcon size={36} variant="default" aria-label="ActionIcon with size as a number">

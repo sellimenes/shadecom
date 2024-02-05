@@ -34,11 +34,13 @@ import classes from './Header.module.css';
 
 import { AuthenticationForm } from '../AuthenticationForm/AuthenticationForm';
 import { handleLogout } from '@/lib/actionsAuth';
+import { useEffect } from 'react';
 
 type Props = {
   settingsData?: any;
   categories?: any;
   currentUser?: any;
+  basket?: any;
 };
 
 type MenuCategories = {
@@ -46,11 +48,15 @@ type MenuCategories = {
   Name: string;
 };
 
-export function Header({ settingsData, categories, currentUser }: Props) {
+export function Header({ settingsData, categories, currentUser, basket }: Props) {
   const [opened, { toggle, close, open }] = useDisclosure(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   const links = [{ label: 'Categories', links: categories }];
+
+  useEffect(() => {
+    console.log(basket)
+  }, [basket]);
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item: MenuCategories) => (
@@ -160,11 +166,17 @@ export function Header({ settingsData, categories, currentUser }: Props) {
               <ActionIcon variant="outline" color="primary">
                 <IconUser style={{ width: '70%', height: '70%' }} stroke={1.5} />
               </ActionIcon>
-              <Indicator variant="dot" color="primary" label="5" size={16}>
+              {basket?.length > 0 ? (
+                <Indicator variant="dot" color="primary" label={basket.length} size={16}>
                 <ActionIcon variant="outline" color="primary">
                   <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
                 </ActionIcon>
               </Indicator>
+              ) : (
+                <ActionIcon variant="outline" color="primary">
+                  <IconShoppingBag style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                </ActionIcon>
+              )}
             </Group>
             {colorScheme === 'light' ? (
               <ActionIcon
