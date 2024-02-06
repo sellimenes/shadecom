@@ -15,3 +15,35 @@
     justify-content: center;
     align-items: center;
 }
+
+.basketCardsWrapper{
+    flex: 1;
+}
+
+.singleCardWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.singleCardImageWrapper{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.subTotalWrapper{
+    min-width: 300px;
+    height: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+}

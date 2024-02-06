@@ -168,7 +168,7 @@ export function Header({ settingsData, categories, currentUser, basket }: Props)
               <ActionIcon variant="outline" color="primary">
                 <IconUser style={{ width: '70%', height: '70%' }} stroke={1.5} />
               </ActionIcon>
-              {basket?.length > 0 ? (
+              {count > 0 ? (
                 <Link href="/basket">
                   <Indicator variant="dot" color="primary" label={count} size={16}>
                     <ActionIcon variant="outline" color="primary">
